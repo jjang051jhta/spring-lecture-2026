@@ -1,4 +1,4 @@
-package com.jjang051.quiz01.controller;
+package com.jjang051.quiz.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,42 +77,4 @@ public class QuizController {
         map.put("age",age);
         return map;
     }
-    @GetMapping("/order-form")
-    public String orderForm() {
-        return "order-form";
-    }
-    @GetMapping("/order")
-    public String order(@RequestParam(name="product",required = true) String product,
-                        @RequestParam(name="count",required = true, defaultValue = "1") int  count,
-                        Model model
-                        ) {
-        model.addAttribute("product",product);
-        model.addAttribute("count",count);
-        return "order";
-    }
-    @GetMapping("/movie")
-    public String reservation(
-            @RequestParam(name="title", required = true) String title,
-            @RequestParam(name="person", required = true) String person,
-            Model model
-    ) {
-        model.addAttribute("title",title);
-        model.addAttribute("person",person);
-        return "movie";
-    }
-    @GetMapping("/score")
-    public String score(
-            @RequestParam(name="kor",  defaultValue = "0") int kor,
-            @RequestParam(name="eng",  defaultValue = "0") int eng,
-            @RequestParam(name="math", defaultValue = "0") int math,
-            Model model
-    ) {
-        double score = (kor+eng+math)/3.0;
-        model.addAttribute("score",score);
-        return "score";
-    }
-
 }
-
-
-

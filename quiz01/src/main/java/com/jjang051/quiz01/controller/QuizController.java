@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 //IoC(Inversion on Control) 제어의 역전
@@ -127,7 +128,23 @@ public class QuizController {
         model.addAttribute("userName",userName);
         return "mypage";
     }
+    @GetMapping("/hobby-form")
+    public String hobbyForm() {
+        return "hobby-form";
+    }
 
+    @GetMapping("/hobby")
+    @ResponseBody
+    public String hobby(
+            @RequestParam(name="hobby",
+                    required = true,
+                    defaultValue = "")
+            List<String> hobbyList) {
+        System.out.println(hobbyList.get(0));
+        System.out.println(hobbyList.get(1));
+        System.out.println(hobbyList.get(2));
+        return hobbyList.toString();
+    }
 }
 
 

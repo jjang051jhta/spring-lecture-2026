@@ -7,9 +7,17 @@
 <body>
     <h1>오늘의 할 일</h1>
     <div class="list">
+
         <ul>
-            <li th:each="item:${todoList}">
-                <span th:text="${item}"></span>
+            <li th:each="item,stat:${todoList}">
+                <span th:text="${item.content}" style="text-decoration: line-through"
+                th:style=" ${item.complete} ? 'text-decoration:line-through' : '' "
+                >
+                </span>
+                <form action="/complete" method="post">
+                    <input type="hidden" name="index" value="1" th:value="${stat.index}">
+                    <button>완료</button>
+                </form>
             </li>
         </ul>
     </div>

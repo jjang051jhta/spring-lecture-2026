@@ -1,31 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>오늘의 할 일</title>
-</head>
-<body>
-    <h1>오늘의 할 일</h1>
-    <div class="list">
 
-        <ul>
-            <li th:each="item,stat:${todoList}">
-                <span th:text="${item.content}" style="text-decoration: line-through"
-                th:style=" ${item.complete} ? 'text-decoration:line-through' : '' "
-                >
-                </span>
-                <form action="/complete" method="post">
-                    <input type="hidden" name="index" value="1" th:value="${stat.index}">
-                    <button>완료</button>
+    <!-- DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-base-200 min-h-screen">
+
+<div class="max-w-md mx-auto px-4 py-8">
+
+    <div class="card bg-base-100 shadow-md">
+        <div class="card-body p-5">
+
+            <h1 class="text-2xl font-bold text-center mb-4">
+                오늘의 할 일
+            </h1>
+
+            <!-- 리스트 -->
+            <ul class="space-y-2">
+
+                <li th:each="item,stat:${todoList}"
+                    class="flex items-center justify-between gap-2
+                           border border-base-300 rounded-lg
+                           px-3 py-2 bg-base-100">
+
+                    <span
+                            th:text="${item.content}"
+                            th:classappend="${item.complete} ? ' line-through text-gray-400 ' : ''"
+                            class="text-sm flex-1 break-all">
+                    </span>
+
+                    <form action="/complete" method="post" class="m-0">
+                        <input type="hidden"
+                               name="index"
+                               th:value="${stat.index}">
+
+                        <button class="btn btn-success btn-xs">
+                            완료
+                        </button>
+                    </form>
+
+                </li>
+
+            </ul>
+
+            <!-- 입력 -->
+            <div class="mt-5">
+
+                <form method="post"
+                      action="/write"
+                      class="flex gap-2">
+
+                    <input type="text"
+                           name="todo"
+                           placeholder="할 일을 입력하세요."
+                           class="input input-bordered input-sm w-full">
+
+                    <button class="btn btn-primary btn-sm">
+                        등록
+                    </button>
+
                 </form>
-            </li>
-        </ul>
+
+            </div>
+
+        </div>
     </div>
-    <div class="input-box">
-        <form method="post" action="/write">
-            <input type="text" name="todo" placeholder="할 일을 입력하세요.">
-            <button>등록</button>
-        </form>
-    </div>
+
+</div>
+
 </body>
 </html>

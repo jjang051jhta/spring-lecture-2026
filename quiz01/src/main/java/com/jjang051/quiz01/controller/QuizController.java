@@ -111,6 +111,22 @@ public class QuizController {
         model.addAttribute("score",score);
         return "score";
     }
+    @GetMapping("/search")
+    public String score(
+            @RequestParam(name="search",  defaultValue = "검색어 없음") String search,
+            Model model
+    ) {
+        model.addAttribute("search",search);
+        return "search";
+    }
+    @GetMapping("/mypage")
+    public String mypage(
+            @RequestParam(name="user-name",  defaultValue = "") String userName,
+            Model model
+    ) {
+        model.addAttribute("userName",userName);
+        return "mypage";
+    }
 
 }
 

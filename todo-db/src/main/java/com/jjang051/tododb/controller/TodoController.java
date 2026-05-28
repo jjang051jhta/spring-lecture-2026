@@ -1,10 +1,14 @@
 package com.jjang051.tododb.controller;
 
+import com.jjang051.tododb.dto.Todo;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -30,4 +34,32 @@ public class TodoController {
             return "db 연결 실패 : "+e.getMessage();
         }
     }
+    @GetMapping("/list")
+    //@ResponseBody
+    public String list(Model model) {
+        String url = "jdbc:oracle:thin:@localhost:1521:xe";
+        String username = "spring";
+        String password = "1234";
+        String sql = "select * from todo";
+        List<Todo> todoList = new ArrayList<>();
+        try {
+            Connection conn = DriverManager.getConnection(url,username,password);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs  = pstmt.executeQuery();
+            while(rs.next()) {
+                int no = rs.getInt("no");
+                String content = rs.getString("content");
+                String complete = rs.getString("complete");
+
+                Todo todo = new Todo(no,content,complete);
+                todoList.add(todo);
+                System.out.println(no + "/" + content + "/" + complete);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        model.addAttribute("todoList",todoList);
+        return "list";
+    }
+
 }

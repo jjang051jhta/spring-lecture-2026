@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>오늘의 할 일</h1>
+<ul>
+    <li th:each="item:${todoList}">
+        <span th:text="${item.no}">1</span>
+        <span th:text="${item.content}">점심먹기</span>
+        <span th:text="${item.complete}">N</span>
+    </li>
+</ul>
+</body>
+</html>

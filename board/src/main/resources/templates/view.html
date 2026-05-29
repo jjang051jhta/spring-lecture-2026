@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세보기</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-base-200 min-h-screen p-6">
+
+<div class="max-w-4xl mx-auto">
+
+    <!-- 제목 -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-4xl font-bold">
+            게시글 상세보기
+        </h1>
+
+        <a href="/board/list" class="btn btn-outline">
+            목록
+        </a>
+    </div>
+
+    <!-- 상세 카드 -->
+    <div class="card bg-base-100 shadow-xl">
+
+        <div class="card-body">
+
+            <!-- 번호 -->
+            <div class="grid grid-cols-[120px_1fr] py-3 border-b border-base-300">
+                <div class="font-bold">번호</div>
+                <div th:text="${boardDto.no}">1</div>
+            </div>
+
+            <!-- 제목 -->
+            <div class="grid grid-cols-[120px_1fr] py-3 border-b border-base-300">
+                <div class="font-bold">제목</div>
+                <div th:text="${boardDto.title}">
+                    게시글 제목
+                </div>
+            </div>
+
+            <!-- 작성자 -->
+            <div class="grid grid-cols-[120px_1fr] py-3 border-b border-base-300">
+                <div class="font-bold">작성자</div>
+                <div th:text="${boardDto.nickname}">
+                    장성호
+                </div>
+            </div>
+
+            <!-- 날짜 -->
+            <div class="grid grid-cols-[120px_1fr] py-3 border-b border-base-300">
+                <div class="font-bold">날짜</div>
+                <div th:text="${boardDto.regDate}">
+                    10
+                </div>
+            </div>
+            <!-- 조회수 -->
+            <div class="grid grid-cols-[120px_1fr] py-3 border-b border-base-300">
+                <div class="font-bold">조회수</div>
+                <div th:text="${boardDto.hit}">
+                    10
+                </div>
+            </div>
+
+            <!-- 내용 -->
+            <div class="py-4">
+                <div class="font-bold text-lg mb-3">
+                    내용
+                </div>
+
+                <div
+                        class="bg-base-200 rounded-xl p-5 min-h-[250px] whitespace-pre-wrap"
+                        th:text="${boardDto.content}">
+                    게시글 내용
+                </div>
+            </div>
+
+            <!-- 버튼 -->
+            <div class="card-actions justify-end mt-4">
+
+                <a href="/board/list" class="btn btn-outline">
+                    목록
+                </a>
+
+                <a th:href="@{/board/edit(no=${boardDto.no})}"
+                   class="btn btn-warning">
+                    수정
+                </a>
+
+                <form action="/board/delete" method="post">
+                    <input type="hidden"
+                           name="no"
+                           th:value="${boardDto.no}">
+
+                    <button class="btn btn-error"
+                            onclick="return confirm('삭제하시겠습니까?')">
+                        삭제
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

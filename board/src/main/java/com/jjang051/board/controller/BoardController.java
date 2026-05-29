@@ -30,7 +30,23 @@ public class BoardController {
         model.addAttribute("boardList",boardList);
         return "list";
     }
-
+    @GetMapping("/view")
+    public String view(@RequestParam(name="no", required = true) int no, Model model) {
+        String sql = "SELECT * FROM board WHERE NO=?";
+        BoardDto boardDto = jdbcTemplate.queryForObject(sql,(rs,rownum)->
+                BoardDto.builder()
+                        .no(rs.getInt("no"))
+                        .title(rs.getString("title"))
+                        .content(rs.getString("content"))
+                        .nickname(rs.getString("nickname"))
+                        .hit(rs.getInt("hit"))
+                        .regDate(rs.getTimestamp("regdate").toLocalDateTime())
+                        .build(),
+                no
+        );
+        model.addAttribute("boardDto", boardDto);
+        return "view";
+    }
 
     @GetMapping("/write")
     public String write() {

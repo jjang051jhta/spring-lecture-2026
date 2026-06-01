@@ -78,3 +78,23 @@ ROLLBACK;
 COMMIT;
 
 SELECT * FROM board WHERE NO=3;
+UPDATE board SET hit = hit+1 WHERE NO=3;
+ROLLBACK;
+
+
+
+CREATE TABLE member (
+    no          NUMBER PRIMARY KEY,
+    user_id     VARCHAR2(100) NOT NULL UNIQUE,
+    user_name   VARCHAR2(100) NOT NULL,
+    user_pw     VARCHAR2(100) NOT NULL,
+    email       VARCHAR2(200) NOT NULL UNIQUE,
+    phone       VARCHAR2(30),
+    address     VARCHAR2(500),
+    regdate     DATE DEFAULT sysdate
+);
+
+CREATE SEQUENCE member_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE;

@@ -1,6 +1,7 @@
 package com.jjang051.moviejdbctemplate.controller;
 
 import com.jjang051.moviejdbctemplate.dto.MovieDto;
+import com.jjang051.moviejdbctemplate.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,58 +22,36 @@ public class MovieController {
 //    @Autowired
 //    private JdbcTemplate jdbcTemplate;
 
-    private final JdbcTemplate jdbcTemplate;
     //생성자의 매개변수로 처리  생성자 주입 방식
 
+    private final MovieService movieService;
 
 
     @GetMapping("/list")
     public String list(Model model) {
-        String sql =  "SELECT * FROM movie";
-        //queryForObject
-        List<MovieDto> movieList = jdbcTemplate.query(sql,(rs, rowNum) ->
-                    MovieDto.builder()
-                            .no(rs.getInt("no"))
-                            .title(rs.getString("title"))
-                            .reserveYn(rs.getString("reserve_yn"))
-                            .build()
-                );
+        List<MovieDto> movieList = movieService.findAll();
         model.addAttribute("movieList",movieList);
         return "list";
     }
     @GetMapping("/list02")
     public String list02(Model model) {
-        String sql =  "SELECT * FROM movie";
-        List<MovieDto> movieList = jdbcTemplate.query(sql, new RowMapper<MovieDto>() {
-                    @Override
-                    public MovieDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-                        return MovieDto.builder()
-                                .no(rs.getInt("no"))
-                                .title(rs.getString("title"))
-                                .reserveYn(rs.getString("reserve_yn"))
-                                .build();
-                    }
-                }
-        );
+        List<MovieDto> movieList = movieService.findAll02();
         model.addAttribute("movieList",movieList);
         return "list";
     }
     @PostMapping("/write")
     public String write(@RequestParam(name="title", required = true) String title) {
-        String sql = "INSERT INTO movie (no,title,reserve_yn) values (movie_seq.nextval,?,'N')";
-        jdbcTemplate.update(sql,title);
+
         return "redirect:/movie/list";
     }
     @PostMapping("/delete")
     public String delete(@RequestParam(name="no", required = true) int no) {
-        String sql = "DELETE FROM movie WHERE no = ?";
-        jdbcTemplate.update(sql,no);
+        movieService.delete(no);
         return "redirect:/movie/list";
     }
     @PostMapping("/update")
     public String update(@RequestParam(name="no", required = true) int no) {
-        String sql = "UPDATE movie SET reserve_yn = 'Y' WHERE no = ?";
-        jdbcTemplate.update(sql,no);
+        movieService.update(no);
         return "redirect:/movie/list";
     }
 

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-base-200 min-h-screen flex items-center justify-center py-10">
+
+<div class="card w-full max-w-lg bg-white shadow-xl">
+    <div class="card-body">
+        <h1 class="text-3xl font-bold text-center mb-6">회원가입</h1>
+
+        <form action="/member/signup" method="post">
+
+            <!-- 회원ID -->
+            <div class="mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">회원 ID</span>
+                </label>
+
+                <div class="flex gap-2">
+                    <input type="text"
+                           name="userId"
+                           placeholder="회원 ID를 입력하세요"
+                           class="input input-bordered flex-1"/>
+
+                    <button type="button"
+                            class="btn btn-outline btn-primary">
+                        중복확인
+                    </button>
+                </div>
+            </div>
+
+            <!-- 이름 -->
+            <div class="mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">이름</span>
+                </label>
+
+                <input type="text"
+                       name="userName"
+                       placeholder="이름을 입력하세요"
+                       class="input input-bordered w-full"/>
+            </div>
+
+            <!-- 이메일 -->
+            <div class="mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">이메일</span>
+                </label>
+
+                <input type="email"
+                       name="email"
+                       placeholder="example@email.com"
+                       class="input input-bordered w-full"/>
+            </div>
+
+            <!-- 비밀번호 -->
+            <div class="mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">비밀번호</span>
+                </label>
+
+                <input type="password"
+                       name="userPw"
+                       placeholder="비밀번호를 입력하세요"
+                       class="input input-bordered w-full"/>
+            </div>
+
+            <!-- 비밀번호 확인 -->
+            <div class="mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">비밀번호 확인</span>
+                </label>
+
+                <input type="password"
+                       name="userPwCheck"
+                       placeholder="비밀번호를 다시 입력하세요"
+                       class="input input-bordered w-full"/>
+            </div>
+
+            <!-- 전화번호 -->
+            <div class="mb-4">
+                <label class="label">
+                    <span class="label-text font-semibold">전화번호</span>
+                </label>
+
+                <input type="text"
+                       name="phone"
+                       placeholder="010-1234-5678"
+                       class="input input-bordered w-full"/>
+            </div>
+
+            <!-- 주소 -->
+            <div class="mb-6">
+                <label class="label">
+                    <span class="label-text font-semibold">주소</span>
+                </label>
+
+                <input type="text"
+                       name="address"
+                       placeholder="주소를 입력하세요"
+                       class="input input-bordered w-full"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full">
+                회원가입
+            </button>
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

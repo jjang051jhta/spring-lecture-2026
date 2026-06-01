@@ -98,3 +98,14 @@ CREATE SEQUENCE member_seq
 START WITH 1
 INCREMENT BY 1
 NOCACHE;
+
+INSERT INTO MEMBER VALUES 
+(member_seq.nextval,'jjang051','장성호',
+'1234','jjang051','010-1111-1111','일산시 장항동 11-11',sysdate);
+
+
+SELECT * FROM MEMBER;
+
+
+
+

@@ -69,4 +69,12 @@ MAXVALUE 99999999999
 nocache
 nocycle;
 
+SELECT * FROM board;
 
+INSERT INTO 
+	board (no,title,content,nickname,regdate,hit) 
+	VALUES (board_seq.nextval,'제목','내용','홍길동',sysdate,0);
+ROLLBACK;
+COMMIT;
+
+SELECT * FROM board WHERE NO=3;

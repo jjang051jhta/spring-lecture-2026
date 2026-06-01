@@ -26,6 +26,14 @@ public class MemberController {
     @PostMapping("/signup")
     public String signupProcess(@Valid @ModelAttribute MemberDto memberDto,
                                 BindingResult bindingResult) {
+        if(memberService.existsUserId(memberDto.getUserId())){
+            bindingResult.rejectValue
+            ("userId","duplicate","이미 사용중인 아이디입니다.");
+        }
+        if(memberService.existsEmail(memberDto.getEmail())){
+            bindingResult.rejectValue
+                    ("email","duplicate","이미 사용중인 이메일입니다.");
+        }
         if(bindingResult.hasErrors()) {
             return "signup";
         }

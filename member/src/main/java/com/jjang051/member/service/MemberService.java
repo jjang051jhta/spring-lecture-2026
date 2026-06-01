@@ -24,4 +24,15 @@ public class MemberService {
                 memberDto.getAddress()
         );
     }
+    public boolean existsUserId(String userId){
+        String sql =  "SELECT count(*) FROM MEMBER WHERE USER_ID= ?";
+        Integer count = jdbcTemplate.queryForObject(sql,Integer.class, userId);
+        return count!=null && count > 0;
+    }
+    public boolean existsEmail(String email){
+        String sql =  "SELECT count(*) FROM MEMBER WHERE EMAIL = ?";
+        Integer count = jdbcTemplate.queryForObject(sql,Integer.class, email);
+        return count!=null && count > 0;
+    }
+
 }

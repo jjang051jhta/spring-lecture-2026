@@ -1,5 +1,6 @@
 package com.jjang051.member.service;
 
+import com.jjang051.member.dto.LoginDto;
 import com.jjang051.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,4 +36,13 @@ public class MemberService {
         return count!=null && count > 0;
     }
 
+    public boolean loginCheck(LoginDto loginDto){
+        String sql = """
+                        SELECT count(*) FROM MEMBER 
+                            WHERE user_id=? AND user_pw=?
+                     """;
+        Integer count = jdbcTemplate.queryForObject(sql,Integer.class,
+                loginDto.getUserId(),loginDto.getUserPw());
+        return count!=null && count > 0;
+    }
 }

@@ -1,5 +1,6 @@
 package com.jjang051.member.controller;
 
+import com.jjang051.member.dto.LoginDto;
 import com.jjang051.member.dto.MemberDto;
 import com.jjang051.member.service.MemberService;
 import jakarta.validation.Valid;
@@ -34,7 +35,11 @@ public class MemberController {
             bindingResult.rejectValue
                     ("email","duplicate","이미 사용중인 이메일입니다.");
         }
-
+        //비밀번화 확인 검증
+        if(!memberDto.getUserPw().equals(memberDto.getUserPwCheck())) {
+            bindingResult.rejectValue
+                    ("userPwCheck","passwordMismatch","비밀번호가 일치하지 않습니다.");
+        }
         if(bindingResult.hasErrors()) {
             return "signup";
         }
@@ -42,4 +47,23 @@ public class MemberController {
         //System.out.println(memberDto.toString());
         return "redirect:/";
     }
+    @GetMapping("/login")
+    public String login(@ModelAttribute LoginDto loginDto) {
+        return "login";
+    }
+    @PostMapping("/login")
+    public String loginProcess(@Valid @ModelAttribute LoginDto loginDto,
+                               BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            return "login";
+        }
+        boolean result = memberService.loginCheck(loginDto);
+        if(!result) {
+            bindingResult.reject("loginFail","까꿍 아이디 또는 비밀번호가 일치하지 않습니다.");
+            return "login";
+        }
+        return "redirect:/";
+    }
+
 }

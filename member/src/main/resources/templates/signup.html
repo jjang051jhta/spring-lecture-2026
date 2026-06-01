@@ -13,17 +13,16 @@
     <div class="card-body">
         <h1 class="text-3xl font-bold text-center mb-6">회원가입</h1>
 
-        <form action="/member/signup" method="post">
+        <form action="/member/signup" method="post" th:object="${memberDto}">
 
             <!-- 회원ID -->
             <div class="mb-4">
                 <label class="label">
                     <span class="label-text font-semibold">회원 ID</span>
                 </label>
-
                 <div class="flex gap-2">
                     <input type="text"
-                           name="userId"
+                           th:field="*{userId}"
                            placeholder="회원 ID를 입력하세요"
                            class="input input-bordered flex-1"/>
 
@@ -32,6 +31,12 @@
                         중복확인
                     </button>
                 </div>
+
+                <p class="text-error text-sm mt-1"
+                   th:if="${#fields.hasErrors('userId')}"
+                   th:errors="*{userId}">
+                    아이디 오류
+                </p>
             </div>
 
             <!-- 이름 -->
@@ -41,9 +46,15 @@
                 </label>
 
                 <input type="text"
-                       name="userName"
+                       th:field="*{userName}"
                        placeholder="이름을 입력하세요"
                        class="input input-bordered w-full"/>
+
+                <p class="text-error text-sm mt-1"
+                   th:if="${#fields.hasErrors('userName')}"
+                   th:errors="*{userName}">
+                    이름 오류
+                </p>
             </div>
 
             <!-- 이메일 -->
@@ -53,9 +64,15 @@
                 </label>
 
                 <input type="email"
-                       name="email"
+                       th:field="*{email}"
                        placeholder="example@email.com"
                        class="input input-bordered w-full"/>
+
+                <p class="text-error text-sm mt-1"
+                   th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}">
+                    이메일 오류
+                </p>
             </div>
 
             <!-- 비밀번호 -->
@@ -65,9 +82,15 @@
                 </label>
 
                 <input type="password"
-                       name="userPw"
+                       th:field="*{userPw}"
                        placeholder="비밀번호를 입력하세요"
                        class="input input-bordered w-full"/>
+
+                <p class="text-error text-sm mt-1"
+                   th:if="${#fields.hasErrors('userPw')}"
+                   th:errors="*{userPw}">
+                    비밀번호 오류
+                </p>
             </div>
 
             <!-- 비밀번호 확인 -->
@@ -77,9 +100,15 @@
                 </label>
 
                 <input type="password"
-                       name="userPwCheck"
+                       th:field="*{userPwCheck}"
                        placeholder="비밀번호를 다시 입력하세요"
                        class="input input-bordered w-full"/>
+
+                <p class="text-error text-sm mt-1"
+                   th:if="${#fields.hasErrors('userPwCheck')}"
+                   th:errors="*{userPwCheck}">
+                    비밀번호 확인 오류
+                </p>
             </div>
 
             <!-- 전화번호 -->
@@ -89,9 +118,15 @@
                 </label>
 
                 <input type="text"
-                       name="phone"
+                       th:field="*{phone}"
                        placeholder="010-1234-5678"
                        class="input input-bordered w-full"/>
+
+                <p class="text-error text-sm mt-1"
+                   th:if="${#fields.hasErrors('phone')}"
+                   th:errors="*{phone}">
+                    전화번호 오류
+                </p>
             </div>
 
             <!-- 주소 -->
@@ -101,9 +136,15 @@
                 </label>
 
                 <input type="text"
-                       name="address"
+                       th:field="*{address}"
                        placeholder="주소를 입력하세요"
                        class="input input-bordered w-full"/>
+
+                <p class="text-error text-sm mt-1"
+                   th:if="${#fields.hasErrors('address')}"
+                   th:errors="*{address}">
+                    주소 오류
+                </p>
             </div>
 
             <button type="submit" class="btn btn-primary w-full">

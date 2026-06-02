@@ -35,6 +35,7 @@
                    th:errors="*{userId}">
                     아이디 오류
                 </p>
+                <p class="text-sm mt-1" id="userIdCheckMessage"></p>
             </div>
 
             <!-- 이름 -->
@@ -71,6 +72,7 @@
                    th:errors="*{email}">
                     이메일 오류
                 </p>
+
             </div>
 
             <!-- 비밀번호 -->
@@ -156,14 +158,12 @@
     //alert("hello js");
     //html 안에 있는 모든 요소들을 제어 가능한 인터프리팅 언어
     const btnDuplicate = document.querySelector("#btn-duplicate");
-    btnDuplicate.addEventListener("click",()=> {
+    const userIdCheckMessage = document.querySelector("#userIdCheckMessage");
+    /*
+    btnDuplicate.addEventListener("click",async ()=> {
         const sendUserId = document.querySelector("#userId").value;
-        console.log("btn-duplicate click");
-        //ajax  asynchronous javascript and xml(json)  비동기 통신
-        //택배
-        //promise state  pending  --->  fulfilled ---> reject
-        //json
-        fetch("/member/id-check-json",{
+
+        await fetch("/member/id-check-json",{
             method:"POST",
             headers: {
               //"Content-Type":"application/x-www-form-urlencoded"
@@ -184,7 +184,28 @@
                     alert("사용가능한 아이디입니다.");
                 }
             });
-    })
+         */
+        btnDuplicate.addEventListener("click",async ()=> {
+            const sendUserId = document.querySelector("#userId").value;
+            const response = await fetch("/member/id-check-json",{
+                method:"POST",
+                headers: {
+                    //"Content-Type":"application/x-www-form-urlencoded"
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({userId:sendUserId})
+            });
+            const data = await response.json();
+            if(data.isDuplicate){
+                //alert("사용할 수 없는 아이디입니다.");
+                userIdCheckMessage.className="text-error text-sm mt-2";
+                userIdCheckMessage.textContent="사용할 수 없는 아이디입니다.";
+            } else {
+                //alert("사용가능한 아이디입니다.");
+                userIdCheckMessage.className="text-success text-sm mt-2";
+                userIdCheckMessage.textContent="사용가능한 아이디입니다.";
+            }
+        })
 </script>
 </body>
 </html>

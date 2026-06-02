@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -64,6 +61,20 @@ public class MemberController {
             return "login";
         }
         return "redirect:/";
+    }
+    @GetMapping("/id-check")
+    @ResponseBody
+    public String idCheck(@RequestParam(name="userId")
+                              String userId) {
+        System.out.println("userId==="+userId);
+        return "아직은 아이디 중복인지 아닌지 모름";
+    }
+    @PostMapping("/id-check")
+    @ResponseBody
+    public String idCheckPost(@RequestParam(name="userId")
+                          String userId) {
+        System.out.println("userId==="+userId);
+        return "아직은 아이디 중복인지 아닌지 모름";
     }
 
 }

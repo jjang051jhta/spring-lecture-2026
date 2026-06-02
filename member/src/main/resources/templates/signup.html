@@ -14,7 +14,7 @@
         <h1 class="text-3xl font-bold text-center mb-6">회원가입</h1>
 
         <form action="/member/signup" method="post" th:object="${memberDto}">
-
+            <input type="file">
             <!-- 회원ID -->
             <div class="mb-4">
                 <label class="label">
@@ -26,8 +26,7 @@
                            placeholder="회원 ID를 입력하세요"
                            class="input input-bordered flex-1"/>
 
-                    <button type="button"
-                            class="btn btn-outline btn-primary">
+                    <button type="button" class="btn btn-outline btn-primary" id="btn-duplicate">
                         중복확인
                     </button>
                 </div>
@@ -154,6 +153,31 @@
         </form>
     </div>
 </div>
-
+<script>
+    //alert("hello js");
+    //html 안에 있는 모든 요소들을 제어 가능한 인터프리팅 언어
+    const btnDuplicate = document.querySelector("#btn-duplicate");
+    btnDuplicate.addEventListener("click",()=> {
+        console.log("btn-duplicate click");
+        //ajax  asynchronous javascript and xml(json)  비동기 통신
+        //택배
+        //promise state  pending  --->  fulfilled ---> reject
+        fetch("/member/id-check",{
+            method:"POST",
+            headers: {
+              "Content-Type":"application/x-www-form-urlencoded"
+            },
+            body:"userId=jjang051"
+        })
+            .then(function(response) {
+                console.log("요청이 처리되어서 결과를 받음");
+                console.log(response);
+                return response.text();
+            })
+            .then(function(data) {
+                console.log(data)
+            });
+    })
+</script>
 </body>
 </html>

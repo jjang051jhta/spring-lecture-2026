@@ -14,7 +14,6 @@
         <h1 class="text-3xl font-bold text-center mb-6">회원가입</h1>
 
         <form action="/member/signup" method="post" th:object="${memberDto}">
-            <input type="file">
             <!-- 회원ID -->
             <div class="mb-4">
                 <label class="label">
@@ -158,24 +157,32 @@
     //html 안에 있는 모든 요소들을 제어 가능한 인터프리팅 언어
     const btnDuplicate = document.querySelector("#btn-duplicate");
     btnDuplicate.addEventListener("click",()=> {
+        const sendUserId = document.querySelector("#userId").value;
         console.log("btn-duplicate click");
         //ajax  asynchronous javascript and xml(json)  비동기 통신
         //택배
         //promise state  pending  --->  fulfilled ---> reject
-        fetch("/member/id-check",{
+        //json
+        fetch("/member/id-check-json",{
             method:"POST",
             headers: {
-              "Content-Type":"application/x-www-form-urlencoded"
+              //"Content-Type":"application/x-www-form-urlencoded"
+              "Content-Type":"application/json"
             },
-            body:"userId=jjang051"
+            body:JSON.stringify({userId:sendUserId})
         })
             .then(function(response) {
                 console.log("요청이 처리되어서 결과를 받음");
                 console.log(response);
-                return response.text();
+                return response.json();
             })
             .then(function(data) {
-                console.log(data)
+                //console.log(data)
+                if(data.isDuplicate) {
+                    alert("쓸 수 없는 아이디입니다.");
+                } else {
+                    alert("사용가능한 아이디입니다.");
+                }
             });
     })
 </script>

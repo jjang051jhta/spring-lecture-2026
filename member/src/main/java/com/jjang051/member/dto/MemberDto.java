@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MemberDto {
 
-    private int no;
+    private Integer no;
 
     @NotBlank(message = "아이디는 필수입력 사항입니다.")
     @Size(min=3, max = 20, message = "아이디는 3~20까지입니다.")

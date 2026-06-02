@@ -45,4 +45,13 @@ public class MemberService {
                 loginDto.getUserId(),loginDto.getUserPw());
         return count!=null && count > 0;
     }
+
+    public boolean idCheck(String userId) {
+        String sql = """
+                        SELECT count(*) FROM MEMBER 
+                            WHERE user_id=?
+                     """;
+        Integer count = jdbcTemplate.queryForObject(sql,Integer.class,userId);
+        return count!=null && count > 0;
+    }
 }

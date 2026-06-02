@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -71,10 +74,24 @@ public class MemberController {
     }
     @PostMapping("/id-check")
     @ResponseBody
-    public String idCheckPost(@RequestParam(name="userId")
-                          String userId) {
+    public String idCheckPost(
+            @RequestParam(name="userId") String userId,
+            @RequestParam(name="userPw") String userPw
+            ) {
         System.out.println("userId==="+userId);
+        System.out.println("userPw==="+userPw);
         return "아직은 아이디 중복인지 아닌지 모름";
+    }
+    @PostMapping("/id-check-json")
+    @ResponseBody
+    public Map<String,Boolean> idCheckPostJson(@RequestBody MemberDto memberDto) {
+        //System.out.println(memberDto.getUserId());
+        //System.out.println(memberDto.getUserPw());
+        String userId =  memberDto.getUserId();
+        boolean isDuplicated = memberService.idCheck(userId);
+        Map<String,Boolean> returnMap = new HashMap<>();
+        returnMap.put("isDuplicate",isDuplicated);
+        return returnMap;
     }
 
 }

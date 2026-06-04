@@ -14,7 +14,7 @@ public class MemberService {
         String sql = """
                 INSERT INTO MEMBER VALUES
                 (member_seq.nextval,?,?,
-                ?,?,?,?,sysdate)
+                ?,?,?,?,?,?,sysdate)
                 """;
         jdbcTemplate.update(sql,
                 memberDto.getUserId(),
@@ -22,7 +22,9 @@ public class MemberService {
                 memberDto.getUserPw(),
                 memberDto.getEmail(),
                 memberDto.getPhone(),
-                memberDto.getAddress()
+                memberDto.getAddress(),
+                memberDto.getZipcode(),
+                memberDto.getDetailAddress()
         );
     }
     public boolean existsUserId(String userId){

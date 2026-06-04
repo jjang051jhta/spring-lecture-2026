@@ -91,6 +91,8 @@ CREATE TABLE member (
     email       VARCHAR2(200) NOT NULL UNIQUE,
     phone       VARCHAR2(30),
     address     VARCHAR2(500),
+    zipcode     NUMBER,
+    detail_address VARCHAR2(300),
     regdate     DATE DEFAULT sysdate
 );
 

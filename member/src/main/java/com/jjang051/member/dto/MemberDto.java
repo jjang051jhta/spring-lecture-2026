@@ -41,5 +41,9 @@ public class MemberDto {
 
     private String address;     // 주소
 
+    private Integer zipcode;
+
+    private String detailAddress;
+
     private LocalDateTime regDate; // 가입일
 }

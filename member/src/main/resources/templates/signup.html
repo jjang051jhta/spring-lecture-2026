@@ -14,11 +14,13 @@
         <h1 class="text-3xl font-bold text-center mb-6">회원가입</h1>
 
         <form action="/member/signup" method="post" th:object="${memberDto}">
+
             <!-- 회원ID -->
             <div class="mb-4">
                 <label class="label">
                     <span class="label-text font-semibold">회원 ID</span>
                 </label>
+
                 <div class="flex gap-2">
                     <input type="text"
                            th:field="*{userId}"
@@ -35,6 +37,7 @@
                    th:errors="*{userId}">
                     아이디 오류
                 </p>
+
                 <p class="text-sm mt-1" id="userIdCheckMessage"></p>
             </div>
 
@@ -72,7 +75,6 @@
                    th:errors="*{email}">
                     이메일 오류
                 </p>
-
             </div>
 
             <!-- 비밀번호 -->
@@ -135,9 +137,32 @@
                     <span class="label-text font-semibold">주소</span>
                 </label>
 
+                <!-- 우편번호 -->
+                <div class="flex gap-2 mb-2">
+                    <input type="text"
+                           th:field="*{zipcode}"
+                           placeholder="우편번호"
+                           readonly
+                           class="input input-bordered flex-1"/>
+
+                    <button type="button"
+                            class="btn btn-outline btn-primary"
+                            id="btn-postcode">
+                        우편번호 검색
+                    </button>
+                </div>
+
+                <!-- 기본 주소 -->
                 <input type="text"
                        th:field="*{address}"
-                       placeholder="주소를 입력하세요"
+                       placeholder="기본 주소"
+                       readonly
+                       class="input input-bordered w-full mb-2"/>
+
+                <!-- 상세 주소 -->
+                <input type="text"
+                       th:field="*{detailAddress}"
+                       placeholder="상세 주소를 입력하세요"
                        class="input input-bordered w-full"/>
 
                 <p class="text-error text-sm mt-1"
@@ -154,58 +179,37 @@
         </form>
     </div>
 </div>
+
+<!-- 다음 우편번호 API -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script>
-    //alert("hello js");
-    //html 안에 있는 모든 요소들을 제어 가능한 인터프리팅 언어
     const btnDuplicate = document.querySelector("#btn-duplicate");
     const userIdCheckMessage = document.querySelector("#userIdCheckMessage");
-    /*
-    btnDuplicate.addEventListener("click",async ()=> {
+
+    btnDuplicate.addEventListener("click", async () => {
         const sendUserId = document.querySelector("#userId").value;
 
-        await fetch("/member/id-check-json",{
-            method:"POST",
+        const response = await fetch("/member/id-check-json", {
+            method: "POST",
             headers: {
-              //"Content-Type":"application/x-www-form-urlencoded"
-              "Content-Type":"application/json"
+                "Content-Type": "application/json"
             },
-            body:JSON.stringify({userId:sendUserId})
-        })
-            .then(function(response) {
-                console.log("요청이 처리되어서 결과를 받음");
-                console.log(response);
-                return response.json();
-            })
-            .then(function(data) {
-                //console.log(data)
-                if(data.isDuplicate) {
-                    alert("쓸 수 없는 아이디입니다.");
-                } else {
-                    alert("사용가능한 아이디입니다.");
-                }
-            });
-         */
-        btnDuplicate.addEventListener("click",async ()=> {
-            const sendUserId = document.querySelector("#userId").value;
-            const response = await fetch("/member/id-check-json",{
-                method:"POST",
-                headers: {
-                    //"Content-Type":"application/x-www-form-urlencoded"
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify({userId:sendUserId})
-            });
-            const data = await response.json();
-            if(data.isDuplicate){
-                //alert("사용할 수 없는 아이디입니다.");
-                userIdCheckMessage.className="text-error text-sm mt-2";
-                userIdCheckMessage.textContent="사용할 수 없는 아이디입니다.";
-            } else {
-                //alert("사용가능한 아이디입니다.");
-                userIdCheckMessage.className="text-success text-sm mt-2";
-                userIdCheckMessage.textContent="사용가능한 아이디입니다.";
-            }
-        })
+            body: JSON.stringify({userId: sendUserId})
+        });
+
+        const data = await response.json();
+
+        if (data.isDuplicate) {
+            userIdCheckMessage.className = "text-error text-sm mt-2";
+            userIdCheckMessage.textContent = "사용할 수 없는 아이디입니다.";
+        } else {
+            userIdCheckMessage.className = "text-success text-sm mt-2";
+            userIdCheckMessage.textContent = "사용가능한 아이디입니다.";
+        }
+    });
+
 </script>
+
 </body>
 </html>

@@ -42,8 +42,13 @@
                 장성호
             </a>
             -->
-            <a href="/member/info">
-                <img th:src="@{/upload/{file}(file=${session.loggedMemberDto.profile})}">
+            <a href="/member/info" class="flex flex-col items-center">
+                <div class="avatar">
+                    <div class="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        <img th:src="@{/upload/{file}(file=${session.loggedMemberDto.thumbnailProfile})}"
+                             alt="프로필"/>
+                    </div>
+                </div>
             </a>
 
             <a href="/member/logout"

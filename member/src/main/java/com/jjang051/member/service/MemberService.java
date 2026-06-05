@@ -39,13 +39,14 @@ public class MemberService {
                 //원본 파일 이름
                 String originalFilename = profile.getOriginalFilename(); //profile.jpg
                 //원본 파일이름을 그래도 저장하면 기존 이미지 삭제되므로 이름 바꿔서 저장
+
                 savedFileName = UUID.randomUUID()+"_"+originalFilename;
                 //파일의 경로 문제 해결
                 Path savedPath = uploadPath.resolve(savedFileName);
                 // 파일 카피해서 넣음 (속도가 제일 빠름)
                 Files.copy(profile.getInputStream(), savedPath, StandardCopyOption.REPLACE_EXISTING);
 
-                thumbnailFilename = "thumb_"+UUID.randomUUID()+"_"+originalFilename;
+                thumbnailFilename = "thumb_"+savedFileName;
                 Path thumbnailPath = uploadPath.resolve(thumbnailFilename);
                 Thumbnails.of(savedPath.toFile())
                         .size(200,200)
@@ -101,7 +102,7 @@ public class MemberService {
 
     public MemberDto loginCheckDto(LoginDto loginDto) {
         String sql = """
-                   SELECT user_id,user_name,profile FROM MEMBER 
+                   SELECT user_id,user_name,profile,thumbnail_profile FROM MEMBER 
                        WHERE user_id=? AND user_pw=?
                 """;
         try {
@@ -110,6 +111,7 @@ public class MemberService {
                                     .userId(rs.getNString("user_id"))
                                     .userName(rs.getString("user_name"))
                                     .profile(rs.getString("profile"))
+                                    .thumbnailProfile(rs.getString("thumbnail_profile"))
                                     .build(),
                     loginDto.getUserId(), loginDto.getUserPw());
         } catch (EmptyResultDataAccessException e) {

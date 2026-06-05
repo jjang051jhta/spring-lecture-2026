@@ -31,7 +31,7 @@ public class MemberController {
     @PostMapping("/signup")
     public String signupProcess(@Valid @ModelAttribute MemberDto memberDto,
                                 BindingResult bindingResult,
-                                @RequestParam(name = "profile", required = false) MultipartFile profile
+                                @RequestParam(name = "profileImg", required = false) MultipartFile profile
                                 ) {
         if(memberService.existsUserId(memberDto.getUserId())){
             bindingResult.rejectValue

@@ -31,9 +31,13 @@ public class MemberService {
 
                 //혹시 폴더가 없으면 만들어라...
                 Files.createDirectories(uploadPath);
+                //원본 파일 이름
                 String originalFilename = profile.getOriginalFilename(); //profile.jpg
+                //원본 파일이름을 그래도 저장하면 기존 이미지 삭제되므로 이름 바꿔서 저장
                 savedFileName = UUID.randomUUID()+"_"+originalFilename;
+                //파일의 경로 문제 해결
                 Path savedPath = uploadPath.resolve(savedFileName);
+                // 파일 카피해서 넣음 (속도가 제일 빠름)
                 Files.copy(profile.getInputStream(), savedPath, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {

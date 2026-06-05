@@ -82,7 +82,7 @@ UPDATE board SET hit = hit+1 WHERE NO=3;
 ROLLBACK;
 
 
-
+DROP TABLE MEMBER;
 CREATE TABLE member (
     no          NUMBER PRIMARY KEY,
     user_id     VARCHAR2(100) NOT NULL UNIQUE,
@@ -93,6 +93,7 @@ CREATE TABLE member (
     address     VARCHAR2(500),
     zipcode     NUMBER,
     detail_address VARCHAR2(300),
+    profile     VARCHAR2(300),
     regdate     DATE DEFAULT sysdate
 );
 

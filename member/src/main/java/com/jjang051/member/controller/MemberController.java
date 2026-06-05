@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,9 @@ public class MemberController {
     }
     @PostMapping("/signup")
     public String signupProcess(@Valid @ModelAttribute MemberDto memberDto,
-                                BindingResult bindingResult) {
+                                BindingResult bindingResult,
+                                @RequestParam(name = "profile", required = false) MultipartFile profile
+                                ) {
         if(memberService.existsUserId(memberDto.getUserId())){
             bindingResult.rejectValue
             ("userId","duplicate","이미 사용중인 아이디입니다.");
@@ -46,7 +49,7 @@ public class MemberController {
         if(bindingResult.hasErrors()) {
             return "signup";
         }
-        memberService.signup(memberDto);
+        memberService.signup(memberDto, profile);
         //System.out.println(memberDto.toString());
         return "redirect:/";
     }

@@ -7,16 +7,43 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MemberService {
     private final JdbcTemplate jdbcTemplate;
-    public void signup(MemberDto memberDto) {
+
+    //이름을 바꿔야 한다.
+    //file이 올라오면 특정 장소(폴더)에 저장한다. 이때 서버내에 두는 건 비추
+    public void signup(MemberDto memberDto, MultipartFile profile) {
+        String savedFileName = null;
+        try {
+            if (!profile.isEmpty()) {
+                Path uploadPath = Paths.get("C:\\upload");
+
+                //혹시 폴더가 없으면 만들어라...
+                Files.createDirectories(uploadPath);
+                String originalFilename = profile.getOriginalFilename(); //profile.jpg
+                savedFileName = UUID.randomUUID()+"_"+originalFilename;
+                Path savedPath = uploadPath.resolve(savedFileName);
+                Files.copy(profile.getInputStream(), savedPath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         String sql = """
                 INSERT INTO MEMBER VALUES
                 (member_seq.nextval,?,?,
-                ?,?,?,?,?,?,sysdate)
+                ?,?,?,?,?,?,?,sysdate)
                 """;
         jdbcTemplate.update(sql,
                 memberDto.getUserId(),
@@ -26,34 +53,38 @@ public class MemberService {
                 memberDto.getPhone(),
                 memberDto.getAddress(),
                 memberDto.getZipcode(),
-                memberDto.getDetailAddress()
+                memberDto.getDetailAddress(),
+                savedFileName
         );
     }
-    public boolean existsUserId(String userId){
-        String sql =  "SELECT count(*) FROM MEMBER WHERE USER_ID= ?";
-        Integer count = jdbcTemplate.queryForObject(sql,Integer.class, userId);
-        return count!=null && count > 0;
-    }
-    public boolean existsEmail(String email){
-        String sql =  "SELECT count(*) FROM MEMBER WHERE EMAIL = ?";
-        Integer count = jdbcTemplate.queryForObject(sql,Integer.class, email);
-        return count!=null && count > 0;
+
+    public boolean existsUserId(String userId) {
+        String sql = "SELECT count(*) FROM MEMBER WHERE USER_ID= ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        return count != null && count > 0;
     }
 
-    public boolean loginCheck(LoginDto loginDto){
-        String sql = """
-                        SELECT count(*) FROM MEMBER 
-                            WHERE user_id=? AND user_pw=?
-                     """;
-        Integer count = jdbcTemplate.queryForObject(sql,Integer.class,
-                loginDto.getUserId(),loginDto.getUserPw());
-        return count!=null && count > 0;
+    public boolean existsEmail(String email) {
+        String sql = "SELECT count(*) FROM MEMBER WHERE EMAIL = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
     }
-    public MemberDto loginCheckDto(LoginDto loginDto){
+
+    public boolean loginCheck(LoginDto loginDto) {
         String sql = """
-                        SELECT user_id,user_name FROM MEMBER 
-                            WHERE user_id=? AND user_pw=?
-                     """;
+                   SELECT count(*) FROM MEMBER 
+                       WHERE user_id=? AND user_pw=?
+                """;
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class,
+                loginDto.getUserId(), loginDto.getUserPw());
+        return count != null && count > 0;
+    }
+
+    public MemberDto loginCheckDto(LoginDto loginDto) {
+        String sql = """
+                   SELECT user_id,user_name FROM MEMBER 
+                       WHERE user_id=? AND user_pw=?
+                """;
         try {
             return jdbcTemplate.queryForObject(sql, (rs, rownum) ->
                             MemberDto.builder()
@@ -68,11 +99,11 @@ public class MemberService {
 
     public boolean idCheck(String userId) {
         String sql = """
-                        SELECT count(*) FROM MEMBER 
-                            WHERE user_id = ?
-                     """;
-        Integer count = jdbcTemplate.queryForObject(sql,Integer.class,userId);
-        return count!=null && count > 0;
+                   SELECT count(*) FROM MEMBER 
+                       WHERE user_id = ?
+                """;
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userId);
+        return count != null && count > 0;
     }
 
     public MemberDto getMemberInfo(String userId) {
@@ -81,7 +112,7 @@ public class MemberService {
                     FROM MEMBER WHERE user_id=?
                 """;
         //RowMapper
-        return jdbcTemplate.queryForObject(sql,(rs,rownum)->
+        return jdbcTemplate.queryForObject(sql, (rs, rownum) ->
                         MemberDto.builder()
                                 .userId(rs.getNString("user_id"))
                                 .userName(rs.getString("user_name"))
@@ -89,7 +120,7 @@ public class MemberService {
                                 .address(rs.getString("address"))
                                 .detailAddress(rs.getString("detail_address"))
                                 .regDate(rs.getTimestamp("regdate").toLocalDateTime())
-                        .build()
-                ,userId);
+                                .build()
+                , userId);
     }
 }

@@ -8,7 +8,7 @@
         <div class="card-body">
             <h1 class="text-3xl font-bold text-center mb-6">회원가입</h1>
 
-            <form action="/member/signup" method="post" th:object="${memberDto}">
+            <form action="/member/signup" method="post" th:object="${memberDto}" enctype="multipart/form-data">
 
                 <!-- 회원ID -->
                 <div class="mb-4">
@@ -175,8 +175,8 @@
 
                     <!-- 미리보기 -->
                     <input type="file"
-                           name="profileImage"
-                           id="profileImage"
+                           name="profile"
+                           id="profile"
                            accept="image/*"
                            class="file-input file-input-bordered w-full"/>
 

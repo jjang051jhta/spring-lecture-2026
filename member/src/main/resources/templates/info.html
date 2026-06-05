@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" data-theme="light">
-<head>
-  <meta charset="UTF-8">
-  <title>MEMBER</title>
+<head th:replace="~{fragments/head::my-head('회원정보')}"></head>
 
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
-<body class="bg-base-200">
+<body class="bg-base-200 min-h-screen">
 
 <header th:replace="~{fragments/header::my-header}"></header>
 

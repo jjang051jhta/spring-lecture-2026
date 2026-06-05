@@ -7,178 +7,184 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-base-200 min-h-screen flex items-center justify-center py-10">
+<body class="bg-base-200 min-h-screen">
+<header th:replace="~{fragments/header::my-header}"></header>
+<div class="flex items-center justify-center py-10">
 
-<div class="card w-full max-w-lg bg-white shadow-xl">
-    <div class="card-body">
-        <h1 class="text-3xl font-bold text-center mb-6">회원가입</h1>
 
-        <form action="/member/signup" method="post" th:object="${memberDto}">
+    <div class="card w-full max-w-lg bg-white shadow-xl">
+        <div class="card-body">
+            <h1 class="text-3xl font-bold text-center mb-6">회원가입</h1>
 
-            <!-- 회원ID -->
-            <div class="mb-4">
-                <label class="label">
-                    <span class="label-text font-semibold">회원 ID</span>
-                </label>
+            <form action="/member/signup" method="post" th:object="${memberDto}">
 
-                <div class="flex gap-2">
-                    <input type="text"
-                           th:field="*{userId}"
-                           placeholder="회원 ID를 입력하세요"
-                           class="input input-bordered flex-1"/>
+                <!-- 회원ID -->
+                <div class="mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold">회원 ID</span>
+                    </label>
 
-                    <button type="button" class="btn btn-outline btn-primary" id="btn-duplicate">
-                        중복확인
-                    </button>
+                    <div class="flex gap-2">
+                        <input type="text"
+                               th:field="*{userId}"
+                               placeholder="회원 ID를 입력하세요"
+                               class="input input-bordered flex-1"/>
+
+                        <button type="button" class="btn btn-outline btn-primary" id="btn-duplicate">
+                            중복확인
+                        </button>
+                    </div>
+
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('userId')}"
+                       th:errors="*{userId}">
+                        아이디 오류
+                    </p>
+
+                    <p class="text-sm mt-1" id="userIdCheckMessage"></p>
                 </div>
 
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('userId')}"
-                   th:errors="*{userId}">
-                    아이디 오류
-                </p>
+                <!-- 이름 -->
+                <div class="mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold">이름</span>
+                    </label>
 
-                <p class="text-sm mt-1" id="userIdCheckMessage"></p>
-            </div>
-
-            <!-- 이름 -->
-            <div class="mb-4">
-                <label class="label">
-                    <span class="label-text font-semibold">이름</span>
-                </label>
-
-                <input type="text"
-                       th:field="*{userName}"
-                       placeholder="이름을 입력하세요"
-                       class="input input-bordered w-full"/>
-
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('userName')}"
-                   th:errors="*{userName}">
-                    이름 오류
-                </p>
-            </div>
-
-            <!-- 이메일 -->
-            <div class="mb-4">
-                <label class="label">
-                    <span class="label-text font-semibold">이메일</span>
-                </label>
-
-                <input type="email"
-                       th:field="*{email}"
-                       placeholder="example@email.com"
-                       class="input input-bordered w-full"/>
-
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('email')}"
-                   th:errors="*{email}">
-                    이메일 오류
-                </p>
-            </div>
-
-            <!-- 비밀번호 -->
-            <div class="mb-4">
-                <label class="label">
-                    <span class="label-text font-semibold">비밀번호</span>
-                </label>
-
-                <input type="password"
-                       th:field="*{userPw}"
-                       placeholder="비밀번호를 입력하세요"
-                       class="input input-bordered w-full"/>
-
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('userPw')}"
-                   th:errors="*{userPw}">
-                    비밀번호 오류
-                </p>
-            </div>
-
-            <!-- 비밀번호 확인 -->
-            <div class="mb-4">
-                <label class="label">
-                    <span class="label-text font-semibold">비밀번호 확인</span>
-                </label>
-
-                <input type="password"
-                       th:field="*{userPwCheck}"
-                       placeholder="비밀번호를 다시 입력하세요"
-                       class="input input-bordered w-full"/>
-
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('userPwCheck')}"
-                   th:errors="*{userPwCheck}">
-                    비밀번호 확인 오류
-                </p>
-            </div>
-
-            <!-- 전화번호 -->
-            <div class="mb-4">
-                <label class="label">
-                    <span class="label-text font-semibold">전화번호</span>
-                </label>
-
-                <input type="text"
-                       th:field="*{phone}"
-                       placeholder="010-1234-5678"
-                       class="input input-bordered w-full"/>
-
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('phone')}"
-                   th:errors="*{phone}">
-                    전화번호 오류
-                </p>
-            </div>
-
-            <!-- 주소 -->
-            <div class="mb-6">
-                <label class="label">
-                    <span class="label-text font-semibold">주소</span>
-                </label>
-
-                <!-- 우편번호 -->
-                <div class="flex gap-2 mb-2">
                     <input type="text"
-                           th:field="*{zipcode}"
-                           placeholder="우편번호"
+                           th:field="*{userName}"
+                           placeholder="이름을 입력하세요"
+                           class="input input-bordered w-full"/>
+
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('userName')}"
+                       th:errors="*{userName}">
+                        이름 오류
+                    </p>
+                </div>
+
+                <!-- 이메일 -->
+                <div class="mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold">이메일</span>
+                    </label>
+
+                    <input type="email"
+                           th:field="*{email}"
+                           placeholder="example@email.com"
+                           class="input input-bordered w-full"/>
+
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('email')}"
+                       th:errors="*{email}">
+                        이메일 오류
+                    </p>
+                </div>
+
+                <!-- 비밀번호 -->
+                <div class="mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold">비밀번호</span>
+                    </label>
+
+                    <input type="password"
+                           th:field="*{userPw}"
+                           placeholder="비밀번호를 입력하세요"
+                           class="input input-bordered w-full"/>
+
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('userPw')}"
+                       th:errors="*{userPw}">
+                        비밀번호 오류
+                    </p>
+                </div>
+
+                <!-- 비밀번호 확인 -->
+                <div class="mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold">비밀번호 확인</span>
+                    </label>
+
+                    <input type="password"
+                           th:field="*{userPwCheck}"
+                           placeholder="비밀번호를 다시 입력하세요"
+                           class="input input-bordered w-full"/>
+
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('userPwCheck')}"
+                       th:errors="*{userPwCheck}">
+                        비밀번호 확인 오류
+                    </p>
+                </div>
+
+                <!-- 전화번호 -->
+                <div class="mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold">전화번호</span>
+                    </label>
+
+                    <input type="text"
+                           th:field="*{phone}"
+                           placeholder="010-1234-5678"
+                           class="input input-bordered w-full"/>
+
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('phone')}"
+                       th:errors="*{phone}">
+                        전화번호 오류
+                    </p>
+                </div>
+
+                <!-- 주소 -->
+                <div class="mb-6">
+                    <label class="label">
+                        <span class="label-text font-semibold">주소</span>
+                    </label>
+
+                    <!-- 우편번호 -->
+                    <div class="flex gap-2 mb-2">
+                        <input type="text"
+                               th:field="*{zipcode}"
+                               placeholder="우편번호"
+                               readonly
+                               class="input input-bordered flex-1"/>
+
+                        <button type="button"
+                                class="btn btn-outline btn-primary"
+                                id="btn-postcode">
+                            우편번호 검색
+                        </button>
+                    </div>
+
+                    <!-- 기본 주소 -->
+                    <input type="text"
+                           th:field="*{address}"
+                           placeholder="기본 주소"
                            readonly
-                           class="input input-bordered flex-1"/>
+                           class="input input-bordered w-full mb-2"/>
 
-                    <button type="button"
-                            class="btn btn-outline btn-primary"
-                            id="btn-postcode">
-                        우편번호 검색
-                    </button>
+                    <!-- 상세 주소 -->
+                    <input type="text"
+                           th:field="*{detailAddress}"
+                           placeholder="상세 주소를 입력하세요"
+                           class="input input-bordered w-full"/>
+
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('address')}"
+                       th:errors="*{address}">
+                        주소 오류
+                    </p>
                 </div>
 
-                <!-- 기본 주소 -->
-                <input type="text"
-                       th:field="*{address}"
-                       placeholder="기본 주소"
-                       readonly
-                       class="input input-bordered w-full mb-2"/>
+                <button type="submit" class="btn btn-primary w-full">
+                    회원가입
+                </button>
 
-                <!-- 상세 주소 -->
-                <input type="text"
-                       th:field="*{detailAddress}"
-                       placeholder="상세 주소를 입력하세요"
-                       class="input input-bordered w-full"/>
-
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('address')}"
-                   th:errors="*{address}">
-                    주소 오류
-                </p>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-full">
-                회원가입
-            </button>
-
-        </form>
+            </form>
+        </div>
     </div>
 </div>
+<!-- FOOTER -->
+<header th:replace="~{fragments/footer::my-footer}"></header>
 
 <!-- 다음 우편번호 API -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -187,14 +193,14 @@
     const btnDuplicate = document.querySelector("#btn-duplicate");
     const userIdCheckMessage = document.querySelector("#userIdCheckMessage");
 
-    const btnPostcode =  document.querySelector("#btn-postcode");
+    const btnPostcode = document.querySelector("#btn-postcode");
     btnPostcode.addEventListener("click", () => {
         //console.log("클릭")
         new kakao.Postcode({
             oncomplete: function (data) {
                 console.log(data);
-                document.querySelector("#zipcode").value=data.zonecode;
-                document.querySelector("#address").value=data.address;
+                document.querySelector("#zipcode").value = data.zonecode;
+                document.querySelector("#address").value = data.address;
                 document.querySelector("#detailAddress").focus();
             }
         }).open()

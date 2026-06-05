@@ -7,84 +7,87 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet"/>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-base-200 min-h-screen flex items-center justify-center">
+<body class="bg-base-200 min-h-screen">
+<header th:replace="~{fragments/header::my-header}"></header>
+<div class=" flex items-center justify-center  py-10">
+    <div class="card w-full max-w-md bg-white shadow-xl">
+        <div class="card-body">
 
-<div class="card w-full max-w-md bg-white shadow-xl">
-    <div class="card-body">
+            <h1 class="text-3xl font-bold text-center mb-6">
+                로그인
+            </h1>
 
-        <h1 class="text-3xl font-bold text-center mb-6">
-            로그인
-        </h1>
+            <form action="/member/login" method="post" th:object="${loginDto}">
 
-        <form action="/member/login" method="post" th:object="${loginDto}">
+                <!-- 로그인 실패 메시지 -->
+                <div class="alert alert-error mb-4"
+                     th:if="${#fields.hasGlobalErrors()}">
+                    <span th:each="err:${#fields.globalErrors()}" th:text="${err}">아이디 또는 비밀번호가 올바르지 않습니다.</span>
+                </div>
 
-            <!-- 로그인 실패 메시지 -->
-            <div class="alert alert-error mb-4"
-                 th:if="${#fields.hasGlobalErrors()}">
-                <span th:each="err:${#fields.globalErrors()}" th:text="${err}">아이디 또는 비밀번호가 올바르지 않습니다.</span>
-            </div>
+                <!-- 회원 ID -->
+                <div class="mb-4">
+                    <label class="label">
+                        <span class="label-text font-semibold">회원 ID</span>
+                    </label>
 
-            <!-- 회원 ID -->
-            <div class="mb-4">
-                <label class="label">
-                    <span class="label-text font-semibold">회원 ID</span>
-                </label>
+                    <input type="text"
+                           name="userId"
+                           placeholder="회원 ID를 입력하세요"
+                           class="input input-bordered w-full"/>
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('userId')}"
+                       th:errors="*{userId}">
+                        비밀번호 확인 오류
+                    </p>
+                </div>
 
-                <input type="text"
-                       name="userId"
-                       placeholder="회원 ID를 입력하세요"
-                       class="input input-bordered w-full"/>
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('userId')}"
-                   th:errors="*{userId}">
-                    비밀번호 확인 오류
-                </p>
-            </div>
+                <!-- 비밀번호 -->
+                <div class="mb-6">
+                    <label class="label">
+                        <span class="label-text font-semibold">비밀번호</span>
+                    </label>
 
-            <!-- 비밀번호 -->
-            <div class="mb-6">
-                <label class="label">
-                    <span class="label-text font-semibold">비밀번호</span>
-                </label>
+                    <input type="password"
+                           name="userPw"
+                           placeholder="비밀번호를 입력하세요"
+                           class="input input-bordered w-full"/>
+                    <p class="text-error text-sm mt-1"
+                       th:if="${#fields.hasErrors('userPw')}"
+                       th:errors="*{userPw}">
+                        비밀번호 확인 오류
+                    </p>
+                </div>
 
-                <input type="password"
-                       name="userPw"
-                       placeholder="비밀번호를 입력하세요"
-                       class="input input-bordered w-full"/>
-                <p class="text-error text-sm mt-1"
-                   th:if="${#fields.hasErrors('userPw')}"
-                   th:errors="*{userPw}">
-                    비밀번호 확인 오류
-                </p>
-            </div>
+                <!-- 로그인 유지 -->
+                <div class="form-control mb-6">
+                    <label class="label cursor-pointer justify-start gap-3">
+                        <input type="checkbox"
+                               name="remember-me"
+                               class="checkbox checkbox-primary"/>
+                        <span class="label-text">로그인 상태 유지</span>
+                    </label>
+                </div>
 
-            <!-- 로그인 유지 -->
-            <div class="form-control mb-6">
-                <label class="label cursor-pointer justify-start gap-3">
-                    <input type="checkbox"
-                           name="remember-me"
-                           class="checkbox checkbox-primary"/>
-                    <span class="label-text">로그인 상태 유지</span>
-                </label>
-            </div>
+                <!-- 버튼 -->
+                <div class="flex flex-col gap-3">
+                    <button type="submit"
+                            class="btn btn-primary w-full">
+                        로그인
+                    </button>
 
-            <!-- 버튼 -->
-            <div class="flex flex-col gap-3">
-                <button type="submit"
-                        class="btn btn-primary w-full">
-                    로그인
-                </button>
+                    <a href="/member/signup"
+                       class="btn btn-outline w-full">
+                        회원가입
+                    </a>
+                </div>
 
-                <a href="/member/signup"
-                   class="btn btn-outline w-full">
-                    회원가입
-                </a>
-            </div>
+            </form>
 
-        </form>
-
+        </div>
     </div>
 </div>
+<footer th:replace="~{fragments/footer::my-footer}"></footer>
 
 </body>
 </html>

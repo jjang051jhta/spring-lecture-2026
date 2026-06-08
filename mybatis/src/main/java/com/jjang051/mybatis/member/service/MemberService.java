@@ -28,7 +28,7 @@ public class MemberService {
                 .zipcode(11111)
                 .regDate(LocalDateTime.now())
                 .build();
-        return memberDao.signup(memberDto1);
+        return memberDao.signup(memberDto);
     }
     public MemberDto login(LoginDto loginDto){
         return  memberDao.login(loginDto);

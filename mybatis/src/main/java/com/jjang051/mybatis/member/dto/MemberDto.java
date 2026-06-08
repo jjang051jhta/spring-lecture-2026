@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class MemberDto {
     private Integer no;
     private String userId;

@@ -27,7 +27,7 @@ public class BoardController {
     @ResponseBody
     public String upload(@RequestParam("upload") MultipartFile upload) {
         String fileName = UUID.randomUUID() + "_" + upload.getOriginalFilename();
-        Path uploadPath = Paths.get("C:/upload/" + fileName);
+        Path uploadPath = Paths.get("C:/upload/");
         try {
             if (!Files.notExists(uploadPath)) {
                 Files.createDirectories(uploadPath);

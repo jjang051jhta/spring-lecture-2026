@@ -22,8 +22,23 @@
         const editor = new Editor({
             el: document.querySelector('#editor'),
             height: '600px',
-            initialEditType: 'wysiwig',
-            previewStyle: 'vertical'
+            initialEditType: 'wysiwyg',
+            previewStyle: 'vertical',
+            //특정이벤트가 발생했을대 내가 쓴 코드를 끼워 넣어서 실행해줘
+            // <input type="file" name="upload">
+            hooks: {
+                addImageBlobHook:async (blob,callback) => {
+                    const formData = new FormData();
+                    formData.append("upload",blob);
+                    const response = await fetch("/board/upload",{
+                        method:"post",
+                        body:formData
+                    })
+                    //console.log(response);
+                    const imageUrl = await response.text();
+                    callback(imageUrl,"업로드된 이미지");
+                }
+            }
         });
         btnConfirm.addEventListener("click",()=>{
             document.querySelector("#content").value=editor.getMarkdown();

@@ -22,7 +22,23 @@ public class SecurityConfig {
                                                 "/css/**",
                                                 "/js/**"
                                 ).permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
+                )
+                .formLogin(form->
+                        form
+                                .loginPage("/member/login")          //get
+                                .loginProcessingUrl("/member/login") //post
+                                .defaultSuccessUrl("/")
+                                .usernameParameter("userId")
+                                .passwordParameter("userPw")
+                                .failureUrl("/member/login?error=true")
+                        .permitAll()
+                )
+                .logout(logout ->
+                        logout
+                                .logoutUrl("/member/logout")
+                                .logoutSuccessUrl("/")
                 );
         return http.build();
     }

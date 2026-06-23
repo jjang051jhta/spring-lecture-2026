@@ -1,24 +1,59 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/extra/spring-security"
->
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Title</title>
+
+    <title>Home</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/dist/full.css"
+          rel="stylesheet">
+
+    <!-- DaisyUI + Tailwind CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
 </head>
-<body>
-<h1>Thymeleaf Index</h1>
-<th:block sec:authorize="isAnonymous()">
-    <a href="/member/login">로그인</a>
-    <a href="/member/signup">회원가입</a>
-</th:block>
 
-<th:block sec:authorize="isAuthenticated()">
-    <a href="/member/info"
-       th:text="${#authentication.principal.memberDto.userName}">로그인</a>
-    <a href="/member/logout"
-       >로그아웃</a>
+<body class="min-h-screen flex flex-col bg-base-200">
 
-</th:block>
+<!-- Header -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<!-- Main -->
+<main class="flex-1 container mx-auto p-10">
+
+    <div class="hero bg-base-100 rounded-xl shadow">
+
+        <div class="hero-content text-center">
+
+            <div>
+
+                <h1 class="text-5xl font-bold">
+                    Spring Security
+                </h1>
+
+                <p class="py-6">
+                    Thymeleaf + DaisyUI + Spring Boot
+                </p>
+
+                <a href="/board/list"
+                   class="btn btn-primary">
+                    게시판 바로가기
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

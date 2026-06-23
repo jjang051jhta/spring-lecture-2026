@@ -1,26 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/layout.css">
+    <title>로그인</title>
+
+    <!-- DaisyUI + Tailwind CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
 </head>
-<body>
-<h1>로그인</h1>
-<form th:method="post" action="/member/login" th:action="@{/member/login}">
-    <div>
-        <label>아이디</label><input name="userId" id="userId">
-    </div>
-    <div>
-        <label>패스워드</label><input type="password" name="userPw" id="userPw">
+
+<body class="min-h-screen bg-base-200 flex flex-col">
+
+<!-- HEADER -->
+<th:block th:replace="~{fragments/header :: header}"></th:block>
+
+<!-- MAIN -->
+<main class="flex-1 flex items-center justify-center px-4 py-12">
+
+    <div class="card w-full max-w-md bg-base-100 shadow-xl">
+        <div class="card-body">
+
+            <h1 class="text-3xl font-bold text-center mb-6">
+                로그인
+            </h1>
+
+            <!-- 로그인 실패 메시지 -->
+            <div th:if="${param.error}" class="alert alert-error mb-4">
+                <span>아이디 또는 패스워드가 일치하지 않습니다.</span>
+            </div>
+
+            <!-- toastMessage -->
+            <div th:if="${toastMessage}" class="alert alert-info mb-4">
+                <span th:text="${toastMessage}"></span>
+            </div>
+
+            <form th:method="post" th:action="@{/member/login}" class="space-y-4">
+
+                <div class="form-control">
+                    <label class="label" for="userId">
+                        <span class="label-text">아이디</span>
+                    </label>
+                    <input type="text"
+                           name="userId"
+                           id="userId"
+                           placeholder="아이디를 입력하세요"
+                           class="input input-bordered w-full">
+                </div>
+
+                <div class="form-control">
+                    <label class="label" for="userPw">
+                        <span class="label-text">패스워드</span>
+                    </label>
+                    <input type="password"
+                           name="userPw"
+                           id="userPw"
+                           placeholder="패스워드를 입력하세요"
+                           class="input input-bordered w-full">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full mt-4">
+                    로그인
+                </button>
+
+            </form>
+
+            <div class="text-center mt-4">
+                <a href="/member/signup" class="link link-primary">
+                    회원가입
+                </a>
+            </div>
+
+        </div>
     </div>
 
-    <div>
-        <button>login</button>
-    </div>
-</form>
-<div th:if="${toastMessage}">
-    <span th:text="${toastMessage}"></span>
-</div>
+</main>
+
+<!-- FOOTER -->
+<th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
 </body>
 </html>

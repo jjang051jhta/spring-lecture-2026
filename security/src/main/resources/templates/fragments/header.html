@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extra/spring-security">
+<body>
+
+<header th:fragment="header">
+
+    <div class="navbar bg-base-100 shadow-lg px-6">
+
+        <!-- Logo -->
+        <div class="flex-1">
+            <a href="/" class="text-2xl font-bold text-primary">
+                JJANG'S BOARD
+            </a>
+        </div>
+
+        <!-- Menu -->
+        <div class="flex-none">
+
+            <ul class="menu menu-horizontal gap-2">
+
+                <li>
+                    <a href="/">홈</a>
+                </li>
+
+                <li>
+                    <a href="/board/list">게시판</a>
+                </li>
+
+                <!-- 로그인 안한 경우 -->
+                <th:block sec:authorize="isAnonymous()">
+
+                    <li>
+                        <a href="/member/login" class="btn btn-primary btn-sm">
+                            로그인
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/member/signup"
+                           class="btn btn-outline btn-primary btn-sm">
+                            회원가입
+                        </a>
+                    </li>
+
+                </th:block>
+
+                <!-- 로그인한 경우 -->
+                <th:block sec:authorize="isAuthenticated()">
+
+                    <li>
+                        <a href="/member/info">
+                            👤
+                            <span
+                                    th:text="${#authentication.principal.memberDto.userName}">
+                                홍길동
+                            </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <form th:action="@{/member/logout}" method="post">
+
+                            <button
+                                    class="btn btn-error btn-sm"
+                                    type="submit">
+                                로그아웃
+                            </button>
+
+                        </form>
+                    </li>
+
+                </th:block>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</header>
+
+</body>
+</html>

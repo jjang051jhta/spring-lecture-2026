@@ -17,6 +17,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         System.out.println("loadUserByUsername");
         MemberDto loggedMemberDto = memberDao.findByUserId(userId);
-                return new CustomUserDetails(loggedMemberDto);
+        if(loggedMemberDto==null){
+            throw new UsernameNotFoundException("User not found");
+        }
+        return new CustomUserDetails(loggedMemberDto);
     }
 }

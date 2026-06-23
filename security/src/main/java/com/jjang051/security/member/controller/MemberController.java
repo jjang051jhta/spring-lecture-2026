@@ -43,6 +43,8 @@ public class MemberController {
         return "member/login";
     }
 
-
-
+//    @PostMapping("/logout")
+//    public String logout() {
+//        return "redirect:/";
+//    }
 }

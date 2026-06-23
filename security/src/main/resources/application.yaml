@@ -22,6 +22,21 @@ spring:
       name: admin
       password: 1234
       # roles:  ADMIN
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: jjang051@naver.com
+    password: 8N8XPNDKJUFW
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable:  true
+            trust:  smtp.naver.com
+        debug:  true
+
+
   data:
     redis:
       host: localhost

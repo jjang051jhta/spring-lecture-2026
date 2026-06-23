@@ -58,7 +58,10 @@ public class MemberController {
         model.addAttribute("loggedMember", authentication.getPrincipal());
         return "member/info";
     }
-
+    @GetMapping("/change-password")
+    public String changePassword(Model model) {
+        return "member/change-password";
+    }
 //    @PostMapping("/logout")
 //    public String logout() {
 //        return "redirect:/";

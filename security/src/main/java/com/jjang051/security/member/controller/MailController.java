@@ -25,5 +25,12 @@ public class MailController {
         mailService.sendMailHtml("jjang051@hanmail.net","테스트입니다.","<h1>안녕하세요. html로 메일을 보냅니다.</h1>");
         return "success";
     }
+    @GetMapping("/auth-member")
+    @ResponseBody
+    public String authMember() {
+        mailService.sendAuthCode("jjang051@hanmail.net");
+        return "success";
+    }
+
 
 }

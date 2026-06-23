@@ -20,6 +20,7 @@ public class SecurityConfig {
                                                 "/member/login",
                                                 "/member/signup",
                                                 "/mail/**",
+                                                "/redis/**",
                                                 "/board/**",
                                                 "/css/**",
                                                 "/js/**"

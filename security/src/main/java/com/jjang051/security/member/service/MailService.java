@@ -78,6 +78,30 @@ public class MailService {
             throw new RuntimeException(e);
         }
     }
+    public void sendResetPasswordCode(String email) {
+        //String code =  UUID.randomUUID().toString().replace("-","").substring(0, 10);
+        String code = String.format("%06d",secureRandom.nextInt(1000000));
+        System.out.println(code);
+        stringRedisTemplate.opsForValue().set("mail:auth:"+email, code, Duration.ofMinutes(3));
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
+            helper.setFrom("jjang051@naver.com");
+            helper.setTo(email);
+            helper.setSubject("비밀번호 변경 인증번호");
+            helper.setText("""
+                    <div style="text-align:center;">
+                        <h2>비밀번호 변경 인증번호</h2>
+                        <p>아래 인증 번호를 입려하세요.</p>
+                        <h2>%s</h2>
+                        <p>이 인증번호는 3분 동안만 유효합니다.</p>
+                    </div>
+                    """.formatted(code),true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public boolean verifiedAuthCode(String email, String code) {
         String key =  "mail:auth:"+email;
         String redisCode = stringRedisTemplate.opsForValue().get(key);

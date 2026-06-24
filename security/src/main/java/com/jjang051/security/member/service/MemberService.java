@@ -21,4 +21,8 @@ public class MemberService {
                 .build();
         return memberDao.signup(encodedSignupDto);
     }
+    public int updatePassword(String userEmail, String newPassword) {
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        return memberDao.updatePassword(userEmail, encodedPassword);
+    }
 }

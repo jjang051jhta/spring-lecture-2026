@@ -21,6 +21,8 @@ public class SecurityConfig {
                                                 "/member/signup",
                                                 "/member/find-password",
                                                 "/member/reset-password",
+                                                "/member/find-password/send",
+                                                "/member/find-password/verify",
                                                 "/mail/**",
                                                 "/redis/**",
                                                 "/board/**",
@@ -32,7 +34,10 @@ public class SecurityConfig {
                 )
                 //.csrf(csrf->csrf.disable())
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/mail/**")
+                        .ignoringRequestMatchers(
+                                "/mail/**",
+                                "/member/find-password/send",
+                                "/member/find-password/verify")
                 )
                 .formLogin(form->
                         form

@@ -30,6 +30,7 @@ public class MailController {
         mailService.sendAuthCode(email);
         return "인증번호를 발송했습니다.";
     }
+
     @PostMapping("/verify")
     @ResponseBody
     public String verify(@RequestParam String email, @RequestParam String code) {
@@ -39,4 +40,5 @@ public class MailController {
         }
         return "인증 실패";
     }
+
 }

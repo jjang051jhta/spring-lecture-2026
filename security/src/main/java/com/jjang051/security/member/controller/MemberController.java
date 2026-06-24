@@ -58,10 +58,21 @@ public class MemberController {
         model.addAttribute("loggedMember", authentication.getPrincipal());
         return "member/info";
     }
-    @GetMapping("/change-password")
-    public String changePassword(Model model) {
-        return "member/change-password";
+    @GetMapping("/find-password")
+    public String findPassword() {
+        return "member/find-password";
     }
+    @GetMapping("/reset-password")
+    public String resetPassword() {
+        return "member/reset-password";
+    }
+    @PostMapping("/reset-password")
+    public String resetPasswordProcess() {
+        //memberService.resetPassword();
+        return "member/reset-password";
+    }
+
+
 //    @PostMapping("/logout")
 //    public String logout() {
 //        return "redirect:/";

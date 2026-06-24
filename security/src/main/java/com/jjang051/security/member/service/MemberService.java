@@ -16,6 +16,7 @@ public class MemberService {
         SignupDto encodedSignupDto = SignupDto.builder()
                 .userId(signupDto.getUserId())
                 .userName(signupDto.getUserName())
+                .userEmail(signupDto.getUserEmail())
                 .userPw(passwordEncoder.encode(signupDto.getUserPw()))
                 .build();
         return memberDao.signup(encodedSignupDto);

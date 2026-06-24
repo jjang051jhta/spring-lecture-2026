@@ -112,7 +112,8 @@
                         <button
                                 type="button"
                                 class="btn btn-outline btn-primary"
-                                onclick="verifyAuthCode()">
+                                id="btn-verified"
+                                >
                             인증확인
                         </button>
                     </div>
@@ -233,6 +234,9 @@
     const signupForm = document.querySelector("#signupForm");
     const btnAuth =  document.querySelector("#btn-auth");
     const email =  document.querySelector("#email");
+    const btnVerified = document.querySelector("#btn-verified");
+    const authCode = document.querySelector("#authCode");
+
 
     signupForm.addEventListener("submit",(e)=>{
         if(!emailVerified) {
@@ -256,7 +260,31 @@
             body:"email="+emailValue
         });
         const result = await response.text();
-        alert(result);
+        //alert(result);
+        const message = document.querySelector("#authMessage");
+        message.innerText=result;
+        message.className="text-sm text-center font-semibold text-success";
+    })
+    btnVerified.addEventListener("click",async (e)=>{
+        const emailValue= email.value;
+        const code = authCode.value
+        const response = await fetch("/mail/verify",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/x-www-form-urlencoded"
+            },
+            body:"email="+emailValue+"&code="+code
+        });
+        const result = await response.text(); //success or fail
+        //alert(result);
+        if(result==="인증 완료") {
+            emailVerified = true;
+        } else {
+            emailVerified = false;
+        }
+        const message = document.querySelector("#authMessage");
+        message.innerText=result;
+        message.className="text-sm text-center font-semibold text-success";
     })
 </script>
 

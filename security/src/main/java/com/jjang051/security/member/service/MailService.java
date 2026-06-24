@@ -78,22 +78,16 @@ public class MailService {
             throw new RuntimeException(e);
         }
     }
-    public boolean verifyAuthCode(String email, String code) {
-        String key = "mail:auth:" + email;
+    public boolean verifiedAuthCode(String email, String code) {
+        String key =  "mail:auth:"+email;
         String redisCode = stringRedisTemplate.opsForValue().get(key);
-
-        if (redisCode == null) {
+        if(redisCode==null) {
             return false;
         }
-
         boolean result = redisCode.equals(code);
-
-        if (result) {
+        if(result){
             stringRedisTemplate.delete(key);
-            stringRedisTemplate.opsForValue()
-                    .set("mail:verified:" + email, "Y", Duration.ofMinutes(10));
         }
-
         return result;
     }
 

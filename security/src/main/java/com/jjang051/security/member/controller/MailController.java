@@ -32,15 +32,11 @@ public class MailController {
     }
     @PostMapping("/verify")
     @ResponseBody
-    public String verify(@RequestParam String email,
-                         @RequestParam String code) {
-
-        boolean result = mailService.verifyAuthCode(email, code);
-
-        if (result) {
-            return "인증 성공";
+    public String verify(@RequestParam String email, @RequestParam String code) {
+        boolean result = mailService.verifiedAuthCode(email,code);
+        if(result){
+            return "인증 완료";
         }
         return "인증 실패";
     }
-
 }

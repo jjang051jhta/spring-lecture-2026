@@ -30,6 +30,7 @@
 
             <form th:action="@{/member/signup}"
                   method="post"
+                  id="signupForm"
                   class="space-y-4">
 
                 <!-- 아이디 -->
@@ -71,7 +72,57 @@
                             class="input input-bordered w-full">
                 </div>
 
-                <!-- 버튼 -->
+                <!-- 이메일 -->
+                <div class="form-control">
+                    <label class="label" for="email">
+                        <span class="label-text">이메일</span>
+                    </label>
+
+                    <div class="flex gap-2">
+                        <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="이메일을 입력하세요"
+                                class="input input-bordered w-full">
+
+                        <button
+                                type="button"
+                                class="btn btn-secondary"
+                                id="btn-auth"
+                                >
+                            인증번호 발송
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 인증번호 -->
+                <div class="form-control">
+                    <label class="label" for="authCode">
+                        <span class="label-text">인증번호</span>
+                    </label>
+
+                    <div class="flex gap-2">
+                        <input
+                                type="text"
+                                id="authCode"
+                                placeholder="인증번호를 입력하세요"
+                                class="input input-bordered w-full">
+
+                        <button
+                                type="button"
+                                class="btn btn-outline btn-primary"
+                                onclick="verifyAuthCode()">
+                            인증확인
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 결과 메세지 -->
+                <p id="authMessage"
+                   class="text-sm text-center font-semibold"></p>
+
+                <!-- 회원가입 -->
                 <button
                         type="submit"
                         class="btn btn-primary w-full mt-4">
@@ -86,7 +137,9 @@
                 <span class="text-sm">
                     이미 계정이 있으신가요?
                 </span>
-                <a href="/member/login" class="link link-primary ml-1">
+
+                <a href="/member/login"
+                   class="link link-primary ml-1">
                     로그인
                 </a>
             </div>
@@ -98,6 +151,114 @@
 
 <!-- Footer -->
 <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+<!--
+<script>
+    let emailVerified = false;
+
+    async function sendAuthCode() {
+
+        const email = document.getElementById("email").value;
+
+        if (email === "") {
+            alert("이메일을 입력하세요.");
+            return;
+        }
+
+        const response = await fetch("/mail/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: "email=" + encodeURIComponent(email)
+        });
+
+        const result = await response.text();
+
+        const message = document.getElementById("authMessage");
+        message.innerText = result;
+        message.className = "text-success text-center font-semibold";
+    }
+
+    async function verifyAuthCode() {
+
+        const email = document.getElementById("email").value;
+        const code = document.getElementById("authCode").value;
+
+        const response = await fetch("/mail/verify", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body:
+                "email=" + encodeURIComponent(email) +
+                "&code=" + encodeURIComponent(code)
+        });
+
+        const result = await response.text();
+
+        const message = document.getElementById("authMessage");
+
+        if (result === "인증 성공") {
+
+            emailVerified = true;
+
+            message.innerText = result;
+            message.className = "text-success text-center font-semibold";
+
+            document.getElementById("email").readOnly = true;
+            document.getElementById("authCode").readOnly = true;
+
+        } else {
+
+            emailVerified = false;
+
+            message.innerText = result;
+            message.className = "text-error text-center font-semibold";
+        }
+    }
+
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
+
+        if (!emailVerified) {
+            e.preventDefault();
+            alert("이메일 인증을 완료해주세요.");
+        }
+
+    });
+</script>
+-->
+
+<script>
+    let emailVerified = false;
+    const signupForm = document.querySelector("#signupForm");
+    const btnAuth =  document.querySelector("#btn-auth");
+    const email =  document.querySelector("#email");
+
+    signupForm.addEventListener("submit",(e)=>{
+        if(!emailVerified) {
+            //이벤트 처리 막는 코드
+            e.preventDefault();
+            alert("이메일 인증을 해주세요");
+        }
+    })
+    btnAuth.addEventListener("click",async (e)=>{
+        console.log("btn-auth click");
+        const emailValue= email.value;
+        if(emailValue.trim()===""){
+            alert("메일을 입력하세요.");
+            return;
+        }
+        const response = await fetch("/mail/send",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/x-www-form-urlencoded"
+            },
+            body:"email="+emailValue
+        });
+        const result = await response.text();
+        alert(result);
+    })
+</script>
 
 </body>
 </html>

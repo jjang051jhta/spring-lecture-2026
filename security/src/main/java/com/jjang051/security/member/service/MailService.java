@@ -58,7 +58,7 @@ public class MailService {
         //String code =  UUID.randomUUID().toString().replace("-","").substring(0, 10);
         String code = String.format("%06d",secureRandom.nextInt(1000000));
         System.out.println(code);
-        stringRedisTemplate.opsForValue().set("mail:auth"+email, code, Duration.ofMinutes(3));
+        stringRedisTemplate.opsForValue().set("mail:auth:"+email, code, Duration.ofMinutes(3));
         MimeMessage message = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message,true,"UTF-8");
@@ -77,5 +77,29 @@ public class MailService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+    public boolean verifyAuthCode(String email, String code) {
+        String key = "mail:auth:" + email;
+        String redisCode = stringRedisTemplate.opsForValue().get(key);
+
+        if (redisCode == null) {
+            return false;
+        }
+
+        boolean result = redisCode.equals(code);
+
+        if (result) {
+            stringRedisTemplate.delete(key);
+            stringRedisTemplate.opsForValue()
+                    .set("mail:verified:" + email, "Y", Duration.ofMinutes(10));
+        }
+
+        return result;
+    }
+
+    public boolean isVerified(String email) {
+        return Boolean.TRUE.equals(
+                stringRedisTemplate.hasKey("mail:verified:" + email)
+        );
     }
 }

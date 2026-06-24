@@ -29,6 +29,9 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 //.csrf(csrf->csrf.disable())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/mail/**")
+                )
                 .formLogin(form->
                         form
                                 .loginPage("/member/login")          //get

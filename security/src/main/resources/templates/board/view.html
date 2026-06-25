@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세</title>
+
+    <style>
+        .wrap {
+            width: 900px;
+            margin: 40px auto;
+        }
+
+        .info {
+            border-top: 2px solid #333;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .meta {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .content {
+            min-height: 250px;
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+        .btn-area {
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+            border: 1px solid #ccc;
+            padding: 8px 14px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+    <h1>게시글 상세</h1>
+
+    <div class="info">
+        <div class="title" th:text="${boardDto.title}">제목</div>
+
+        <div class="meta">
+            번호:
+            <span th:text="${boardDto.no}"></span>
+            |
+            조회수:
+            <span th:text="${boardDto.hit}"></span>
+            |
+            작성일:
+            <span th:text="${#temporals.format(boardDto.regdate, 'yyyy-MM-dd HH:mm')}"></span>
+        </div>
+    </div>
+
+    <div class="content" th:text="${boardDto.content}">
+        내용
+    </div>
+
+    <div class="btn-area">
+        <a href="/board/list">목록</a>
+    </div>
+</div>
+
+</body>
+</html>

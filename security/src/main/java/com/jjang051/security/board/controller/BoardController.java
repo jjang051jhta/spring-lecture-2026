@@ -4,6 +4,7 @@ import com.jjang051.security.board.dto.BoardDto;
 import com.jjang051.security.board.service.BoardService;
 import com.jjang051.security.member.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
     private final BoardService boardService;
     @GetMapping("/write")
@@ -25,11 +27,12 @@ public class BoardController {
                                @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         boardDto.setAuthor(customUserDetails.getMemberDto().getUserName());
         boardService.write(boardDto);
-        return "board/list";
+        return "redirect:/board/list";
     }
     @GetMapping("/list")
     public String list(Model model) {
         List<BoardDto> boardList = boardService.findAll();
+        log.info("list={}",boardList.size());
         model.addAttribute("boardList", boardList);
         return "board/list";
     }

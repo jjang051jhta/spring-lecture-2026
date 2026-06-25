@@ -37,8 +37,10 @@ public class BoardController {
         return "board/list";
     }
     @GetMapping("/view")
-    public String view(Model model, @RequestParam int no) {
-        boardService.increaseHit(no);
+    public String view(Model model, @RequestParam int no,
+                       @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        String userKey= customUserDetails.getMemberDto().getUserId();
+        boardService.increaseHit(no,userKey);
         BoardDto boardDto = boardService.findByNo(no);
         model.addAttribute("boardDto", boardDto);
         return "board/view";

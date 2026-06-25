@@ -25,14 +25,13 @@ public class SecurityConfig {
                                                 "/member/find-password/verify",
                                                 "/mail/**",
                                                 "/redis/**",
-                                                "/board/**",
                                                 "/css/**",
                                                 "/js/**"
                                 ).permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
-                //.csrf(csrf->csrf.disable())
+                .csrf(csrf->csrf.disable())
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers(
                                 "/mail/**",

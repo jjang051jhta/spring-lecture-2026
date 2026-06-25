@@ -17,11 +17,12 @@ CREATE SEQUENCE seq_sequrity_member
 nocycle;
 
 SELECT * FROM security_member;
-
+DROP TABLE security_board;
 CREATE TABLE security_board (
                                 NO NUMBER CONSTRAINT security_board_no_pk PRIMARY KEY,
                                 TITLE varchar2(1000) CONSTRAINT security_board_title_nn NOT NULL ,
                                 CONTENT varchar2(3000) CONSTRAINT security_board_content_nn NOT NULL,
+                                AUTHOR  varchar2(100) CONSTRAINT security_board_autho_nn NOT NULL,
                                 hit     NUMBER  DEFAULT 1,
                                 REGDATE DATE DEFAULT sysdate
 );
@@ -37,4 +38,38 @@ SELECT * FROM security_board;
 DELETE  FROM security_member;
 COMMIT;
 
+
+DELETE FROM security_board;
+
+
+--MEMBER  -  board
+-- 회원 한명은 여러 게시글에 좋아요를 누를 수 있다.
+-- 게시글 하나는 여러 회원에서 좋아요를 받을 수 있다.
+
+DROP TABLE security_board_like;
+CREATE TABLE security_board_like (
+                                     NO NUMBER CONSTRAINT board_like_no_pk PRIMARY KEY ,
+                                     BOARD_NO NUMBER CONSTRAINT board_like_boardno_nn NOT NULL
+                                         CONSTRAINT board_like_boardno_fk REFERENCES security_board(no) ,
+                                     USER_ID  varchar2(100) CONSTRAINT board_like_userid_nn NOT NULL
+						   CONSTRAINT board_like_userid_fk REFERENCES security_member(user_id),
+                                     regdate DATE DEFAULT sysdate,
+                                     CONSTRAINT board_like_uk UNIQUE (BOARD_NO, USER_ID)
+);
+CREATE TABLE security_board_like (
+                                     NO NUMBER CONSTRAINT board_like_no_pk PRIMARY KEY,
+                                     BOARD_NO NUMBER CONSTRAINT board_like_boardno_nn NOT NULL,
+                                     USER_ID  varchar2(100) CONSTRAINT board_like_userid_nn NOT NULL,
+                                     regdate DATE DEFAULT sysdate,
+                                     CONSTRAINT board_like_boardno_fk FOREIGN KEY (BOARD_NO)  REFERENCES security_board(no) ,
+                                     CONSTRAINT board_like_userid_fk  FOREIGN KEY (USER_ID)   REFERENCES SECURITY_MEMBER(user_id),
+                                     CONSTRAINT board_like_uk UNIQUE (BOARD_NO, USER_ID)
+);
+SELECT * FROM security_board_like;
+CREATE SEQUENCE seq_security_board_like
+    START WITH 1
+    INCREMENT BY 1
+    nocache
+nocycle;
+INSERT INTO security_board_like VALUES (seq_security_board_like.nextval,6,'ccc',sysdate);
 

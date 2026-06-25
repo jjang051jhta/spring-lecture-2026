@@ -4,44 +4,34 @@
     <meta charset="UTF-8">
     <title>게시글 보기</title>
 
-    <!-- DaisyUI + Tailwind -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 <body class="min-h-screen bg-base-200 flex flex-col">
 
-<!-- HEADER -->
 <th:block th:replace="~{fragments/header :: header}"></th:block>
 
-<!-- MAIN -->
 <main class="flex-1 max-w-5xl mx-auto w-full px-4 py-10">
 
     <div class="card bg-base-100 shadow-xl">
-
         <div class="card-body">
 
-            <!-- 제목 -->
             <h1 class="text-3xl font-bold mb-6"
                 th:text="${boardDto.title}">
                 게시글 제목
             </h1>
 
-            <!-- 작성 정보 -->
             <div class="grid md:grid-cols-3 gap-4 mb-6 border-b pb-5">
 
                 <div>
                     <span class="font-semibold">작성자</span><br>
-                    <span th:text="${boardDto.author}">
-                        홍길동
-                    </span>
+                    <span th:text="${boardDto.author}">홍길동</span>
                 </div>
 
                 <div>
                     <span class="font-semibold">조회수</span><br>
-                    <span th:text="${boardDto.hit}">
-                        0
-                    </span>
+                    <span th:text="${boardDto.hit}">0</span>
                 </div>
 
                 <div>
@@ -53,21 +43,33 @@
 
             </div>
 
-            <!-- 내용 -->
             <div class="prose max-w-none min-h-[350px]"
                  th:utext="${boardDto.content}">
                 게시글 내용
             </div>
 
-        </div>
+            <!-- 좋아요 -->
+            <div class="divider"></div>
 
+            <div class="flex justify-center">
+                <button id="likeBtn"
+                        class="btn btn-outline btn-error gap-2"
+                        th:data-no="${boardDto.no}">
+                    ❤️ 좋아요
+                    <span class="badge badge-error"
+                          id="likeCount"
+                          >
+                        0
+                    </span>
+                </button>
+            </div>
+
+        </div>
     </div>
 
-    <!-- 버튼 -->
     <div class="flex justify-between mt-8">
 
-        <a href="/board/list"
-           th:href="@{/board/list}"
+        <a th:href="@{/board/list}"
            class="btn btn-outline">
             목록
         </a>
@@ -100,8 +102,9 @@
 
 </main>
 
-<!-- FOOTER -->
 <th:block th:replace="~{fragments/footer :: footer}"></th:block>
+
+
 
 </body>
 </html>

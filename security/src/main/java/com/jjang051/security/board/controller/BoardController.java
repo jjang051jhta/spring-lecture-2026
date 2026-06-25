@@ -1,6 +1,7 @@
 package com.jjang051.security.board.controller;
 
 import com.jjang051.security.board.dto.BoardDto;
+import com.jjang051.security.board.service.BoardLikeService;
 import com.jjang051.security.board.service.BoardService;
 import com.jjang051.security.member.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 @Slf4j
 public class BoardController {
     private final BoardService boardService;
+    private final BoardLikeService boardLikeService;
     @GetMapping("/write")
     public String write() {
         return "board/write";
@@ -44,5 +46,13 @@ public class BoardController {
         BoardDto boardDto = boardService.findByNo(no);
         model.addAttribute("boardDto", boardDto);
         return "board/view";
+    }
+    @PostMapping("/like")
+    @ResponseBody
+    public String like (@RequestParam int no,
+                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        String userId =   customUserDetails.getMemberDto().getUserId();
+        boardLikeService.insertLike(no,userId);
+        return "success";
     }
 }

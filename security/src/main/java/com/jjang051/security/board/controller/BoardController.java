@@ -36,4 +36,11 @@ public class BoardController {
         model.addAttribute("boardList", boardList);
         return "board/list";
     }
+    @GetMapping("/view")
+    public String view(Model model, @RequestParam int no) {
+        boardService.increaseHit(no);
+        BoardDto boardDto = boardService.findByNo(no);
+        model.addAttribute("boardDto", boardDto);
+        return "board/view";
+    }
 }

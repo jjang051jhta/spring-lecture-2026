@@ -9,4 +9,6 @@ import java.util.List;
 public interface BoardDao {
     int write(BoardDto boardDto);
     List<BoardDto> findAll();
+    int increaseHit(int no);
+    BoardDto findByNo(int no);
 }

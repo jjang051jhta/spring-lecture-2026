@@ -21,4 +21,10 @@ public class BoardService {
     public List<BoardDto> findAll() {
         return boardDao.findAll();
     }
+    public BoardDto findByNo(int no) {
+        return boardDao.findByNo(no);
+    }
+    public int increaseHit(int no) {
+        return boardDao.increaseHit(no);
+    }
 }

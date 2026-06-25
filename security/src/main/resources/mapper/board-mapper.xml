@@ -15,5 +15,15 @@
     <select id="findAll">
         SELECT * FROM security_board
     </select>
+    <select id="findByNo" parameterType="int" resultType="BoardDto">
+        SELECT * FROM security_board
+        WHERE no = #{no}
+    </select>
+
+    <update id="increaseHit" parameterType="int">
+        UPDATE security_board
+        SET hit = hit + 1
+        WHERE no = #{no}
+    </update>
 </mapper>
 

@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Param;
 public interface BoardLikeDao {
     int insertLike(@Param("boardNo") int boardNo,
                    @Param("userId") String userId);
+    int likeCount(int boardNo);
 }

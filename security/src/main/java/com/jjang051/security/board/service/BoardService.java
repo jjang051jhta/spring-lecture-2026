@@ -37,4 +37,5 @@ public class BoardService {
             boardDao.increaseHit(no);
         }
     }
+
 }

@@ -13,4 +13,7 @@ public class BoardLikeService {
     public int insertLike(int boardNo, String userId) {
         return boardLikeDao.insertLike(boardNo, userId);
     }
+    public int likeCount(int boardNo) {
+        return boardLikeDao.likeCount(boardNo);
+    }
 }

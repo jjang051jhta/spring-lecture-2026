@@ -11,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/board")
@@ -44,15 +47,21 @@ public class BoardController {
         String userKey= customUserDetails.getMemberDto().getUserId();
         boardService.increaseHit(no,userKey);
         BoardDto boardDto = boardService.findByNo(no);
+        int likeCount = boardLikeService.likeCount(no);
         model.addAttribute("boardDto", boardDto);
+        model.addAttribute("likeCount", likeCount);
         return "board/view";
     }
     @PostMapping("/like")
     @ResponseBody
-    public String like (@RequestParam int no,
-                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public Map<String, Object> like (@RequestParam int no,
+                                     @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         String userId =   customUserDetails.getMemberDto().getUserId();
         boardLikeService.insertLike(no,userId);
-        return "success";
+        int likeCount = boardLikeService.likeCount(no);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("likeCount", likeCount);
+        resultMap.put("message", "success");
+        return resultMap;
     }
 }

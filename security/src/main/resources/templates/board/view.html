@@ -60,6 +60,7 @@
                     ❤️ 좋아요
                     <span class="badge badge-error"
                           id="likeCount"
+                          th:text="${likeCount}"
                           >
                         0
                     </span>
@@ -108,6 +109,7 @@
 <script>
     //const boardNo =  ${boardDto.content}
     const btnLike =  document.querySelector("#likeBtn");
+    const likeCount =  document.querySelector("#likeCount");
     btnLike.addEventListener("click",async (e)=>{
         const no = btnLike.dataset.no;
         const response = await fetch("/board/like",{
@@ -117,8 +119,9 @@
             },
             body:"no="+no
         })
-        const result = await response.text();
-        if(result==="success") {
+        const result = await response.json();
+        if(result.message==="success") {
+            likeCount.textContent =  result.likeCount;
             alert("좋아요 성공");
         }
 

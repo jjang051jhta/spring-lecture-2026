@@ -11,5 +11,8 @@
             sysdate
         )
     </insert>
+    <select id="likeCount" parameterType="int" resultType="int">
+        SELECT count(*) AS count FROM security_board_like WHERE board_no = #{no}
+    </select>
 </mapper>
 

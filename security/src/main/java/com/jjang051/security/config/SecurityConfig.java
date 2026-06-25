@@ -32,12 +32,12 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .csrf(csrf->csrf.disable())
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers(
-                                "/mail/**",
-                                "/member/find-password/send",
-                                "/member/find-password/verify")
-                )
+//                .csrf(csrf -> csrf
+//                        .ignoringRequestMatchers(
+//                                "/mail/**",
+//                                "/member/find-password/send",
+//                                "/member/find-password/verify")
+//                )
                 .formLogin(form->
                         form
                                 .loginPage("/member/login")          //get

@@ -12,5 +12,8 @@
         #{regDate}
         )
     </insert>
+    <select id="findAll">
+        SELECT * FROM security_board
+    </select>
 </mapper>
 

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class HelloSchedule {
     //@Scheduled(fixedDelay = 10000) //작업시간 + 10초
     //@Scheduled(fixedRate = 10000) //무조건 10초마다 한번씩
-    @Scheduled(cron = "0 54 11 * * *") //초 분 시 일 월 요일
+    //@Scheduled(cron = "0 54 11 * * *") //초 분 시 일 월 요일
     public void hello() {
         log.info("==============");
         log.info("Schedule Start");

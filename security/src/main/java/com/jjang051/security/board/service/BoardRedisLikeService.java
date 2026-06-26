@@ -14,6 +14,17 @@ public class BoardRedisLikeService {
     private String getLikeKey(int boardNo) {
         return "board:like:" + boardNo;
     }
+    //좋아요 갯수
+    public long getLikeCount(int boardNo) {
+        String key = getLikeKey(boardNo);
+        Long size = redisTemplate.opsForSet().size(key);
+        return size==null?0:size;
+    }
+    public boolean isLiked(int boardNo,String userId) {
+        String key = getLikeKey(boardNo);
+        Boolean liked = redisTemplate.opsForSet().isMember(key, userId);
+        return Boolean.TRUE.equals(liked);
+    }
     public LikeResultDto toggleLike(int boardNo, String userId) {
         //board:like:8,
         String key = getLikeKey(boardNo);

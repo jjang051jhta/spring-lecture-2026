@@ -44,6 +44,7 @@ public class BoardController {
         model.addAttribute("boardList", boardList);
         return "board/list";
     }
+    /*
     @GetMapping("/view")
     public String view(Model model, @RequestParam int no,
                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
@@ -58,6 +59,7 @@ public class BoardController {
         model.addAttribute("liked", liked);
         return "board/view";
     }
+     */
     /*
     @PostMapping("/like")
     @ResponseBody
@@ -74,6 +76,19 @@ public class BoardController {
         return resultMap;
     }
      */
+    @GetMapping("/view")
+    public String view(Model model, @RequestParam int no,
+                       @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        String userKey= customUserDetails.getMemberDto().getUserId();
+        BoardDto boardDto = boardService.findByNo(no);
+        boolean liked = false;
+        long likeCount = boardRedisLikeService.getLikeCount(no);
+        liked = boardRedisLikeService.isLiked(no, userKey);
+        model.addAttribute("liked", liked);
+        model.addAttribute("likeCount", likeCount);
+        model.addAttribute("boardDto", boardDto);
+        return "board/view";
+    }
     @PostMapping("/like")
     @ResponseBody
     public Map<String,Object> like (@RequestParam int no,

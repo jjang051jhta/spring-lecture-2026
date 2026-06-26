@@ -1,5 +1,6 @@
 package com.jjang051.security.board.service;
 
+import com.jjang051.security.board.dto.LikeResultDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -13,11 +14,20 @@ public class BoardRedisLikeService {
     private String getLikeKey(int boardNo) {
         return "board:like:" + boardNo;
     }
-    public void toggleLike(int boardNo, String userId) {
+    public LikeResultDto toggleLike(int boardNo, String userId) {
         //board:like:8,
         String key = getLikeKey(boardNo);
-        redisTemplate.opsForSet().add(key, userId);
-        Long size =  redisTemplate.opsForList().size(key);
+        Boolean alreadyLiked = redisTemplate.opsForSet().isMember(key, userId);
+        boolean liked;
+        if(Boolean.TRUE.equals(alreadyLiked)) {
+            redisTemplate.opsForSet().remove(key, userId);
+            liked = false;
+        } else {
+            redisTemplate.opsForSet().add(key, userId);
+            liked = true;
+        }
+        Long size =  redisTemplate.opsForSet().size(key);
         log.info("getLikeKey(boardNo) size {}", size);
+        return new LikeResultDto(liked, size == null ? 0 : size);
     }
 }

@@ -1,6 +1,7 @@
 package com.jjang051.security.board.controller;
 
 import com.jjang051.security.board.dto.BoardDto;
+import com.jjang051.security.board.dto.LikeResultDto;
 import com.jjang051.security.board.service.BoardLikeService;
 import com.jjang051.security.board.service.BoardRedisLikeService;
 import com.jjang051.security.board.service.BoardService;
@@ -75,10 +76,15 @@ public class BoardController {
      */
     @PostMapping("/like")
     @ResponseBody
-    public String like (@RequestParam int no,
+    public Map<String,Object> like (@RequestParam int no,
                                      @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         String userId =   customUserDetails.getMemberDto().getUserId();
-        boardRedisLikeService.toggleLike(no,userId);
-        return "success";
+        LikeResultDto likeResultDto = boardRedisLikeService.toggleLike(no,userId);
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("message", "success");
+        resultMap.put("likeCount", likeResultDto.getLikeCount());
+        resultMap.put("liked", likeResultDto.isLiked());
+        return resultMap;
     }
 }

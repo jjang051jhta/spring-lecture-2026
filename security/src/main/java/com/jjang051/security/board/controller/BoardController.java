@@ -45,11 +45,14 @@ public class BoardController {
     public String view(Model model, @RequestParam int no,
                        @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         String userKey= customUserDetails.getMemberDto().getUserId();
+        boolean liked = false;
         boardService.increaseHit(no,userKey);
         BoardDto boardDto = boardService.findByNo(no);
         int likeCount = boardLikeService.likeCount(no);
+        liked = boardLikeService.isLiked(no,userKey);
         model.addAttribute("boardDto", boardDto);
         model.addAttribute("likeCount", likeCount);
+        model.addAttribute("liked", liked);
         return "board/view";
     }
     @PostMapping("/like")
@@ -57,11 +60,13 @@ public class BoardController {
     public Map<String, Object> like (@RequestParam int no,
                                      @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         String userId =   customUserDetails.getMemberDto().getUserId();
-        boardLikeService.insertLike(no,userId);
+        //toggle
+        boolean liked = boardLikeService.toggleLike(no,userId);
         int likeCount = boardLikeService.likeCount(no);
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("likeCount", likeCount);
         resultMap.put("message", "success");
+        resultMap.put("liked", liked);
         return resultMap;
     }
 }

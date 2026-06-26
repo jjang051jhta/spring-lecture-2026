@@ -2,6 +2,7 @@ package com.jjang051.security.board.controller;
 
 import com.jjang051.security.board.dto.BoardDto;
 import com.jjang051.security.board.service.BoardLikeService;
+import com.jjang051.security.board.service.BoardRedisLikeService;
 import com.jjang051.security.board.service.BoardService;
 import com.jjang051.security.member.dto.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Objects;
 public class BoardController {
     private final BoardService boardService;
     private final BoardLikeService boardLikeService;
+    private final BoardRedisLikeService boardRedisLikeService;
     @GetMapping("/write")
     public String write() {
         return "board/write";
@@ -55,6 +57,7 @@ public class BoardController {
         model.addAttribute("liked", liked);
         return "board/view";
     }
+    /*
     @PostMapping("/like")
     @ResponseBody
     public Map<String, Object> like (@RequestParam int no,
@@ -68,5 +71,14 @@ public class BoardController {
         resultMap.put("message", "success");
         resultMap.put("liked", liked);
         return resultMap;
+    }
+     */
+    @PostMapping("/like")
+    @ResponseBody
+    public String like (@RequestParam int no,
+                                     @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        String userId =   customUserDetails.getMemberDto().getUserId();
+        boardRedisLikeService.toggleLike(no,userId);
+        return "success";
     }
 }

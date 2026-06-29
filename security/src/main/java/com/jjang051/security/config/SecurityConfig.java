@@ -26,6 +26,7 @@ public class SecurityConfig {
                                                 "/mail/**",
                                                 "/map/**",
                                                 "/redis/**",
+                                                "/images/**",
                                                 "/css/**",
                                                 "/js/**"
                                 ).permitAll()

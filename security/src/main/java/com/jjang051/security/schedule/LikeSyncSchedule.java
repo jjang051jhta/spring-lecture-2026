@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +22,7 @@ public class LikeSyncSchedule {
     private final BoardLikeRedisDao boardLikeRedisDao;
 
     @Scheduled(fixedDelay = 10000)
+    @Transactional
     public void syncRedisToDB() {
         log.info("syncRedisToDB");
         Set<String> keys = redisTemplate.keys("board:like:*");

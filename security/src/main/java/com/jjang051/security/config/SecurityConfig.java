@@ -24,6 +24,7 @@ public class SecurityConfig {
                                                 "/member/find-password/send",
                                                 "/member/find-password/verify",
                                                 "/mail/**",
+                                                "/map/**",
                                                 "/redis/**",
                                                 "/css/**",
                                                 "/js/**"

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1601cd1d108739b235353d7be0cc466f&libraries=services,clusterer"></script>
+</head>
+<body>
+    <div class="map-container">
+        <div id="map">
+
+        </div>
+    </div>
+    <script>
+        async function  loadEvCar () {
+            const evCar = await fetch("/map/ev-car")
+            const json = await evCar.json()
+            console.log(json);
+        }
+        loadEvCar();
+    </script>
+</body>
+</html>

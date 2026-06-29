@@ -1,5 +1,6 @@
 package com.jjang051.security.map.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,10 +16,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("/map")
 @Slf4j
+@RequiredArgsConstructor
 public class MapController {
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    //@Autowired
+    private final ObjectMapper objectMapper;
     private final RestClient restClient = RestClient.create();
 
     @GetMapping("/map01")
@@ -28,6 +30,10 @@ public class MapController {
         model.addAttribute("address", address);
         model.addAttribute("placeName", placeName);
         return "map/map01";
+    }
+    @GetMapping("/ev-car-main")
+    public String evCarMain(Model model) {
+        return "map/ev-car-main";
     }
     @GetMapping("/ev-car")
     @ResponseBody
@@ -42,7 +48,7 @@ public class MapController {
                                 .path("/openapi/v1/EVcharge.do")
                                 .queryParam("metroCd", 11)
                                 .queryParam("apiKey", "4U5Lg0oJlM4ivG53BRtvtemmuDW8o73bz3Ci27i3")
-                                .queryParam("returnType","json")
+                                //.queryParam("returnType","json")
                                 .build()
                 )
                 .retrieve()

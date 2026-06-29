@@ -45,8 +45,8 @@ public class MapController {
                         uriBuilder
                                 .scheme("https")
                                 .host("bigdata.kepco.co.kr")
-                                .path("/openapi/v1/EVcharge.do")
-                                .queryParam("metroCd", 11)
+                                .path("/openapi/v1/EVchargeManage.do")
+                                .queryParam("addr", "서울")
                                 .queryParam("apiKey", "4U5Lg0oJlM4ivG53BRtvtemmuDW8o73bz3Ci27i3")
                                 //.queryParam("returnType","json")
                                 .build()

@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .map-container {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+        }
+        #map {
+            width:100vw;
+            height: 500px;
+        }
+    </style>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1601cd1d108739b235353d7be0cc466f&libraries=services,clusterer"></script>
 </head>
 <body>
@@ -12,10 +23,28 @@
         </div>
     </div>
     <script>
+        const map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
+            center : new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표
+            level : 14 // 지도의 확대 레벨
+        });
         async function  loadEvCar () {
             const evCar = await fetch("/map/ev-car")
             const json = await evCar.json()
             console.log(json);
+            // 마커 클러스터러를 생성합니다
+            const clusterer = new kakao.maps.MarkerClusterer({
+                map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+                averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+                minLevel: 10 // 클러스터 할 최소 지도 레벨
+            });
+            var markers = json.data.map(function(item, i) {
+                return new kakao.maps.Marker({
+                    position : new kakao.maps.LatLng(item.lat, item.longi)
+                });
+            });
+
+            // 클러스터러에 마커들을 추가합니다
+            clusterer.addMarkers(markers);
         }
         loadEvCar();
     </script>

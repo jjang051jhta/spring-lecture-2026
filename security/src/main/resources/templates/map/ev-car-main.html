@@ -173,7 +173,7 @@
                     placeholder="예) 제주, 서울, 경기"
                     value="제주">
 
-            <button type="button" id="btn-map">검색</button>
+            <button type="submit" id="btn-map">검색</button>
         </form>
     </div>
     <div id="map">
@@ -183,16 +183,20 @@
 
 <script>
 
-    const btnMap =  document.querySelector("#btn-map");
-    btnMap.addEventListener("click",()=>{
-        const addressInput =  document.querySelector("#address");
-        const searchAddress =  addressInput.value.trim();
+    const searchForm = document.querySelector("#searchForm");
+
+    searchForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // 폼 전송 막기
+
+        const searchAddress = document.querySelector("#address").value.trim();
+
         if (!searchAddress) {
             alert("지역명을 입력하세요.");
             return;
         }
+
         loadEvCar(searchAddress);
-    })
+    });
 
     const map = new kakao.maps.Map(document.getElementById('map'), { // 지도를 표시할 div
         center: new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표

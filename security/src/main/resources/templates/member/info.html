@@ -69,6 +69,11 @@
                 </a>
                 <a href="/" th:href="@{/member/change-password}"
                    class="btn btn-outline">비밀번호 수정</a>
+                <form th:action="@{/member/kakao-unlink}" method="post">
+                    <button class="btn btn-error">
+                        카카오 연결 해제
+                    </button>
+                </form>
                 <form th:action="@{/member/logout}" method="post">
                     <button class="btn btn-error">
                         로그아웃

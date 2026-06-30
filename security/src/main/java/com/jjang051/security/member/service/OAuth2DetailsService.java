@@ -51,6 +51,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService {
                     .userEmail(socialUserInfo.getEmail())
                     .build();
             memberDao.signup(newMemberDto);
+            findMemberDto = memberDao.findByUserId(userId);
         }
         return new CustomUserDetails(findMemberDto,oAuth2User.getAttributes());
         //회원가입

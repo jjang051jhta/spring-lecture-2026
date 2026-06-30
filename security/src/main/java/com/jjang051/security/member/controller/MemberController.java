@@ -3,10 +3,12 @@ package com.jjang051.security.member.controller;
 import com.jjang051.security.member.dao.MemberDao;
 import com.jjang051.security.member.dto.CustomUserDetails;
 import com.jjang051.security.member.dto.SignupDto;
+import com.jjang051.security.member.service.KakaoUnlinkService;
 import com.jjang051.security.member.service.MailService;
 import com.jjang051.security.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,11 +21,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
 
     private final MemberService memberService;
     private final MailService mailService;
+    private final KakaoUnlinkService kakaoUnlinkService;
 
     @GetMapping("/signup")
     public String signup() {
@@ -91,6 +95,16 @@ public class MemberController {
             return "인증 완료";
         }
         return "인증 실패";
+    }
+    @PostMapping("/kakao-unlink")
+    public String kakaoUnlink(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpSession session) {
+        String userId =  customUserDetails.getMemberDto().getUserId();
+        String kakaoUserId =  userId.replace("kakao_","");
+        log.info("kakaoUserId = {}",kakaoUserId);
+
+        kakaoUnlinkService.unlinkByAdminKey(kakaoUserId);
+        session.invalidate();
+        return "redirect:/member/login";
     }
 
 //    @PostMapping("/logout")

@@ -19,6 +19,15 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService {
         log.info("userRequest = {}", userRequest);
         Map<String,Object> oauth2UserInfo = (Map)oAuth2User.getAttributes();
         log.info("oauth2UserInfo = {}", oauth2UserInfo);
+        //처음 로그인 시도한 경우 회원가입을 시키면서 로그인 처리
+        //두번째 로그인 시도한 경우  db에 찾아서 있으면 자동 로그인 없으면 회원가입
+        String provider =  userRequest.getClientRegistration().getRegistrationId();
+        log.info("provider = {}", provider);
+
+
+
         return super.loadUser(userRequest);
+
+        //회원가입
     }
 }

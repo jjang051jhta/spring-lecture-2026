@@ -11,6 +11,7 @@ public interface MemberDao {
     int signup(SignupDto signupDto);
 
     MemberDto findByUserId(String userId);
+    int  deleteMember(String userId);
 
     int updatePassword(@Param("userEmail") String userEmail,
                        @Param("userPw") String userPw);

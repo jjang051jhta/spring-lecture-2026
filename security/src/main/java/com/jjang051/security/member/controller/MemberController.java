@@ -99,10 +99,7 @@ public class MemberController {
     @PostMapping("/kakao-unlink")
     public String kakaoUnlink(@AuthenticationPrincipal CustomUserDetails customUserDetails, HttpSession session) {
         String userId =  customUserDetails.getMemberDto().getUserId();
-        String kakaoUserId =  userId.replace("kakao_","");
-        log.info("kakaoUserId = {}",kakaoUserId);
-
-        kakaoUnlinkService.unlinkByAdminKey(kakaoUserId);
+        kakaoUnlinkService.unlinkByAdminKey(userId);
         session.invalidate();
         return "redirect:/member/login";
     }

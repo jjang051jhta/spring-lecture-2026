@@ -20,5 +20,8 @@
     <update id="updatePassword">
         UPDATE security_member SET user_pw = #{userPw} WHERE user_email = #{userEmail}
     </update>
+    <delete id="deleteMember" parameterType="String">
+        DELETE FROM security_member WHERE user_id = #{userId}
+    </delete>
 </mapper>
 

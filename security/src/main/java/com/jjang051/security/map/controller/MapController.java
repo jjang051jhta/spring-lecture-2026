@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestClient;
 import tools.jackson.databind.ObjectMapper;
@@ -37,7 +38,7 @@ public class MapController {
     }
     @GetMapping("/ev-car")
     @ResponseBody
-    public Map<String,Object> evCar(Model model) {
+    public Map<String,Object> evCar(Model model, @RequestParam (name = "address" , defaultValue = "서울") String address) {
         log.info("map/ev-car");
         String json = restClient
                 .get()
@@ -46,7 +47,7 @@ public class MapController {
                                 .scheme("https")
                                 .host("bigdata.kepco.co.kr")
                                 .path("/openapi/v1/EVchargeManage.do")
-                                .queryParam("addr", "서울")
+                                .queryParam("addr", address)
                                 .queryParam("apiKey", "4U5Lg0oJlM4ivG53BRtvtemmuDW8o73bz3Ci27i3")
                                 //.queryParam("returnType","json")
                                 .build()

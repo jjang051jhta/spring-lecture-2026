@@ -1,6 +1,7 @@
 package com.jjang051.security.member.service;
 
 import com.jjang051.security.member.dao.MemberDao;
+import com.jjang051.security.member.dto.CustomUserDetails;
 import com.jjang051.security.member.dto.MemberDto;
 import com.jjang051.security.member.dto.SignupDto;
 import com.jjang051.security.member.social.KakaoUserInfo;
@@ -51,7 +52,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService {
                     .build();
             memberDao.signup(newMemberDto);
         }
-        return super.loadUser(userRequest);
+        return new CustomUserDetails(findMemberDto,oAuth2User.getAttributes());
         //회원가입
     }
 }

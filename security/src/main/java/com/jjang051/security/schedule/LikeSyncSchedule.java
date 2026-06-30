@@ -21,8 +21,8 @@ public class LikeSyncSchedule {
     private final StringRedisTemplate redisTemplate;
     private final BoardLikeRedisDao boardLikeRedisDao;
 
-    @Scheduled(fixedDelay = 10000)
-    @Transactional
+    //@Scheduled(fixedDelay = 10000)
+    //@Transactional
     public void syncRedisToDB() {
         log.info("syncRedisToDB");
         Set<String> keys = redisTemplate.keys("board:like:*");

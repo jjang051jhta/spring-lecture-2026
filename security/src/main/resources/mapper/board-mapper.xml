@@ -25,5 +25,6 @@
         SET hit = hit + 1
         WHERE no = #{no}
     </update>
+
 </mapper>
 

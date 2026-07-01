@@ -45,10 +45,8 @@ spring:
       port: 6379
 mybatis:
   mapper-locations:  classpath:/mapper/**/*.xml
-  type-aliases-package: com.jjang051.security.member.dto,com.jjang051.security.board.dto
+  type-aliases-package: com.jjang051.security
   configuration:
     map-underscore-to-camel-case: true
-
-
 kakao:
   admin-key:  05ca3b8044581dce6409056953dc7a76

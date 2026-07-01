@@ -73,3 +73,28 @@ CREATE SEQUENCE seq_security_board_like
 nocycle;
 INSERT INTO security_board_like VALUES (seq_security_board_like.nextval,6,'ccc',sysdate);
 
+CREATE TABLE china_menu (
+                            menu varchar2(100),
+                            count number
+);
+INSERT INTO china_menu values('짜장면',1);
+INSERT INTO china_menu values('짜장면',1);
+INSERT INTO china_menu values('짜장면',1);
+INSERT INTO china_menu values('짜장면',1);
+INSERT INTO china_menu values('짜장면',1);
+INSERT INTO china_menu values('짜장면',20);
+
+INSERT INTO china_menu values('짬뽕',10);
+INSERT INTO china_menu values('짬뽕',20);
+INSERT INTO china_menu values('짬뽕',3);
+
+INSERT INTO china_menu values('우동',30);
+
+
+INSERT INTO china_menu values('탕수육',3);
+
+INSERT INTO china_menu values('유린기',3);
+
+INSERT INTO china_menu values('유산슬',3);
+
+COMMIT;

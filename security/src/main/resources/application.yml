@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include:  oauth
   application:
     name: security
   devtools:
@@ -22,26 +24,6 @@ spring:
       name: admin
       password: 1234
       # roles:  ADMIN
-    oauth2:
-      client:
-        registration:
-          kakao:
-            client-id:  4d3bccf60a93b84ba29ec50d734a3204
-            client-secret:  LlVKzUAXan1pJLAxCNpoU6c7dGmzJO20
-            client-name: kakao
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
-            authorization-grant-type: authorization_code
-            client-authentication-method: client_secret_post
-            scope:
-              - profile_nickname
-              - profile_image
-              - account_email
-        provider:
-          kakao:
-            authorization-uri: https://kauth.kakao.com/oauth/authorize
-            token-uri: https://kauth.kakao.com/oauth/token
-            user-info-uri: https://kapi.kakao.com/v2/user/me
-            user-name-attribute: id
   mail:
     host: smtp.naver.com
     port: 465

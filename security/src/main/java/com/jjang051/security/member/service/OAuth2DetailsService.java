@@ -4,7 +4,9 @@ import com.jjang051.security.member.dao.MemberDao;
 import com.jjang051.security.member.dto.CustomUserDetails;
 import com.jjang051.security.member.dto.MemberDto;
 import com.jjang051.security.member.dto.SignupDto;
+import com.jjang051.security.member.social.GoogleUserInfo;
 import com.jjang051.security.member.social.KakaoUserInfo;
+import com.jjang051.security.member.social.NaverUserInfo;
 import com.jjang051.security.member.social.SocialUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +42,11 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService {
         log.info("provider = {}", provider);
         if(provider.equals("kakao")) {
             socialUserInfo = new KakaoUserInfo(oauth2UserInfo);
+        } else if(provider.equals("google")) {
+            log.info("google이 왜 안나오지");
+            socialUserInfo = new GoogleUserInfo(oauth2UserInfo);
+        } else if(provider.equals("naver")) {
+            socialUserInfo = new NaverUserInfo(oauth2UserInfo);
         }
         String userId =  socialUserInfo.getProviderID();  //"kakao_1212123"
         MemberDto findMemberDto = memberDao.findByUserId(userId);

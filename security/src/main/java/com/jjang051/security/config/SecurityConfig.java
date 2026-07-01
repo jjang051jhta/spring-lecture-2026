@@ -27,6 +27,7 @@ public class SecurityConfig {
                                                 "/member/reset-password",
                                                 "/member/find-password/send",
                                                 "/member/find-password/verify",
+                                                "/chart/**",
                                                 "/mail/**",
                                                 "/map/**",
                                                 "/map/ev-car",

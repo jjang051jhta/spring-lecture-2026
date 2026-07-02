@@ -6,5 +6,13 @@
     <select id="findAllVotes" parameterType="int" resultType="VoteDto">
         SELECT * FROM VOTE ORDER BY vote_no DESC
     </select>
+    <select id="findVoteByNo" parameterType="int" resultType="VoteDto">
+        SELECT * FROM VOTE WHERE vote_no = #{voteNo}
+    </select>
+    <select id="findItemsByVoteNo" parameterType="int" resultType="VoteItemDto">
+        SELECT * FROM vote_item
+        WHERE vote_no = #{voteNo}
+        ORDER BY item_no asc
+    </select>
 </mapper>
 

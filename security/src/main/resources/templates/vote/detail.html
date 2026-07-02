@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2 th:text="${voteDto.title}"></h2>
+    <form>
+        <div th:each="item:${voteDto.items}">
+            <label>
+                <input type="radio" name="itemNo" value="${item.itemNo}">
+                <span th:text="${item.itemText}"></span>
+            </label>
+        </div>
+        <div><button>투표하기</button></div>
+    </form>
+</body>
+</html>

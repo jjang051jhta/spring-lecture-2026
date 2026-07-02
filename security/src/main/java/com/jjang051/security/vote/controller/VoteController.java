@@ -2,6 +2,7 @@ package com.jjang051.security.vote.controller;
 
 import com.jjang051.security.vote.dao.VoteDao;
 import com.jjang051.security.vote.dto.VoteDto;
+import com.jjang051.security.vote.dto.VoteItemDto;
 import com.jjang051.security.vote.service.VoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +26,11 @@ public class VoteController {
         return "vote/list";
     }
     @GetMapping("/{voteNo}")
-    @ResponseBody
-    public String detail(@PathVariable int voteNo, @RequestParam(name="voteNo") int voteNoParam, Model model){
+    public String detail(@PathVariable int voteNo, Model model){
         log.info("voteNo = {}", voteNo);
-        log.info("voteNoParam = {}", voteNoParam);
+        VoteDto voteDto =
+                voteService.findVote(voteNo);
+        model.addAttribute("voteDto",voteDto);
         return "vote/detail";
     }
 

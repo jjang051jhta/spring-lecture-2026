@@ -19,7 +19,7 @@
             <tr th:each="item:${voteDtoList}">
                 <td th:text="${item.voteNo}">1</td>
                 <td>
-                    <a th:href="@{/vote/{pathVoteNo}(pathVoteNo = ${item.voteNo},voteNo=${item.voteNo})}">월드컵 ~~~</a>
+                    <a th:href="@{/vote/{pathVoteNo}(pathVoteNo = ${item.voteNo})}" th:text="${item.title}">월드컵 ~~~</a>
                 </td>
                 <td>
                     <span

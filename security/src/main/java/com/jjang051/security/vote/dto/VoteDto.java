@@ -14,7 +14,6 @@ public class VoteDto {
     private int voteNo;
     private String title;
     private LocalDateTime regDate;
-    private String regDateFormatted;
     //방금 전,1시간전,어제,2026
     private List<VoteItemDto> items;
     public String getRegDateFormatted() {

@@ -1,50 +1,127 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투표 결과</title>
+
+    <!-- DaisyUI + Tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <style>
         .chart-wrap {
-            width: 1200px;
-            height: 400px;
+            position: relative;
+            width: 100%;
+            height: 450px;
         }
     </style>
 </head>
-<body>
-<div class="chart-wrap">
-    <canvas id="myChart"></canvas>
+
+<body class="min-h-screen bg-base-200">
+
+<div class="max-w-6xl mx-auto py-10 px-4">
+
+    <div class="card bg-base-100 shadow-xl">
+
+        <div class="card-body">
+
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="card-title text-3xl"
+                    th:text="${voteDto.title}">
+                    투표 결과
+                </h2>
+
+                <a th:href="@{/vote/list}" class="btn btn-outline">
+                    목록
+                </a>
+            </div>
+
+            <!-- 차트 -->
+            <div class="chart-wrap">
+                <canvas id="myChart"></canvas>
+            </div>
+
+            <!-- 결과 테이블 -->
+            <div class="overflow-x-auto mt-10">
+                <table class="table table-zebra">
+
+                    <thead>
+                    <tr>
+                        <th>항목</th>
+                        <th class="text-right">득표수</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr th:each="item : ${voteDto.items}">
+                        <td th:text="${item.itemText}">
+                            항목
+                        </td>
+
+                        <td class="text-right">
+                            <span class="badge badge-primary badge-lg"
+                                  th:text="${item.voteCount}">
+                                0
+                            </span>
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script th:inline="javascript">
-    const labels = /*[[${voteDto.items.![itemText]}]]*/[];
-    const chartData = /*[[${voteDto.items.![voteCount]}]]*/[];
-    const title = /*[[${voteDto.title}]]*/[];
-    const type = "bar";
+
+    const labels = /*[[${voteDto.items.![itemText]}]]*/ [];
+    const chartData = /*[[${voteDto.items.![voteCount]}]]*/ [];
+    const title = /*[[${voteDto.title}]]*/ "";
+
     const ctx = document.getElementById("myChart");
 
     new Chart(ctx, {
-        type: type,
+        type: "bar",
         data: {
             labels: labels,
-            datasets: [
-                {
-                    label: title,
-                    data: chartData,
-                    borderWidth: 1,
-                },
-            ],
+            datasets: [{
+                label: title,
+                data: chartData,
+                borderWidth: 1,
+                borderRadius: 8,
+            }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: true
+                }
+            },
+
             scales: {
                 y: {
                     beginAtZero: true,
-                },
-            },
-        },
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
     });
+
 </script>
+
 </body>
 </html>

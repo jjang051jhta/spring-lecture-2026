@@ -1,19 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>투표하기</title>
+
+    <!-- DaisyUI + Tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
-    <h2 th:text="${voteDto.title}"></h2>
-    <form th:action="@{/vote/{voteNo}(voteNo = ${voteDto.voteNo})}" method="post">
-        <div th:each="item:${voteDto.items}">
-            <label>
-                <input type="radio" name="itemNo" th:value="${item.itemNo}">
-                <span th:text="${item.itemText}"></span>
-            </label>
+
+<body class="min-h-screen bg-base-200">
+
+<div class="max-w-2xl mx-auto py-10 px-4">
+
+    <div class="card bg-base-100 shadow-xl">
+
+        <div class="card-body">
+
+            <h2 class="card-title text-3xl mb-6"
+                th:text="${voteDto.title}">
+                투표 제목
+            </h2>
+
+            <form th:action="@{/vote/{voteNo}(voteNo=${voteDto.voteNo})}"
+                  method="post">
+
+                <div class="space-y-4">
+
+                    <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-base-200 transition"
+                           th:each="item : ${voteDto.items}">
+
+                        <input
+                                type="radio"
+                                name="itemNo"
+                                class="radio radio-primary"
+                                th:value="${item.itemNo}">
+
+                        <span class="text-lg"
+                              th:text="${item.itemText}">
+                            항목
+                        </span>
+
+                    </label>
+
+                </div>
+
+                <div class="card-actions justify-end mt-8">
+
+                    <a th:href="@{/vote/list}"
+                       class="btn btn-outline">
+                        목록
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-primary">
+                        🗳️ 투표하기
+                    </button>
+
+                </div>
+
+            </form>
+
         </div>
-        <div><button>투표하기</button></div>
-    </form>
+
+    </div>
+
+</div>
+
 </body>
 </html>

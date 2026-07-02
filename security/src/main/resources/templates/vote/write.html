@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/vote/write}" th:method="post">
+    <div>
+        <label> 투표제목 </label>
+        <input type="text" name="title" placeholder="ex) 좋아하는 연예인은?">
+    </div>
+    <div>
+        <div>
+            <label>투표항목</label>
+            <button type="button" id="btn-add-item">항목추가</button>
+        </div>
+        <div id="item-box">
+            <input type="text" name="itemText" placeholder="항목 1">
+            <input type="text" name="itemText" placeholder="항목 1">
+        </div>
+        <div><button>등록</button></div>
+    </div>
+</form>
+<script>
+    const btnAddItem = document.querySelector("#btn-add-item");
+    const itemBox = document.querySelector("#item-box");
+    btnAddItem.addEventListener("click",(e)=>{
+        e.preventDefault();
+        const input = document.createElement("input");
+        input.type="text";
+        input.name = "itemText";
+        input.placeholder="추가항목";
+        itemBox.appendChild(input);
+    })
+</script>
+</body>
+</html>

@@ -17,5 +17,18 @@
     <update id="increaseVoteCount" parameterType="int">
         UPDATE vote_item SET vote_count = vote_count+1  WHERE item_no = #{itemNo}
     </update>
+    <insert id="insertVote" parameterType="VoteDto">
+        <selectKey keyProperty="voteNo" resultType="int" order="BEFORE">
+            SELECT vote_seq.nextval FROM DUAL
+        </selectKey>
+        INSERT INTO vote
+            (vote_no,title,reg_date) VALUES
+        (#{voteNo},#{title},SYSDATE)
+    </insert>
+    <insert id="insertVoteItem">
+        INSERT INTO vote_item
+        (item_no,vote_no,item_text,vote_count) VALUES
+        (vote_item_seq.nextval,#{voteNo},#{itemText},0)
+    </insert>
 </mapper>
 

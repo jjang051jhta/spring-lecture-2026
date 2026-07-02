@@ -44,4 +44,14 @@ public class VoteController {
         model.addAttribute("voteDto",voteDto);
         return "vote/result";
     }
+    @GetMapping("/write")
+    public String write(){
+        return "vote/write";
+    }
+    @PostMapping("/write")
+    public String writeProcess(@RequestParam String title,@RequestParam List<String> itemText){
+        voteService.createVote(title,itemText);
+        return "redirect:/vote/list";
+    }
+
 }

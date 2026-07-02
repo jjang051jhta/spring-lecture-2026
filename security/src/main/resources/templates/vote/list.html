@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -18,13 +18,15 @@
         <tbody>
             <tr th:each="item:${voteDtoList}">
                 <td th:text="${item.voteNo}">1</td>
-                <td><a href="@{@{/vote/{voteNo}(voteNo = ${item.voteNo})}">월드컵 ~~~</a></td>
+                <td>
+                    <a th:href="@{/vote/{pathVoteNo}(pathVoteNo = ${item.voteNo},voteNo=${item.voteNo})}">월드컵 ~~~</a>
+                </td>
                 <td>
                     <span
                             th:text="${#temporals.format(item.regDate,'yyyy-MM-dd HH:mm')}"></span> /
                     <span th:text="${item.regDateFormatted}"></span>
                 </td>
-                <td><a href="@{/vote/{voteNo}/result(voteNo=${item.voteNo})}">결과보기</a></td>
+                <td><a th:href="@{/vote/{voteNo}/result(voteNo=${item.voteNo})}">결과보기</a></td>
             </tr>
         </tbody>
     </table>

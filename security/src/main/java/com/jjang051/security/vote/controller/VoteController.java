@@ -1,15 +1,26 @@
 package com.jjang051.security.vote.controller;
 
-import ch.qos.logback.core.model.Model;
+import com.jjang051.security.vote.dao.VoteDao;
+import com.jjang051.security.vote.dto.VoteDto;
+import com.jjang051.security.vote.service.VoteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/vote")
+@RequiredArgsConstructor
 public class VoteController {
+    private final VoteService voteService;
+
     @GetMapping({"","/","/list"})
     public String list(Model model){
+        List<VoteDto> voteDtoList = voteService.findAllVotes();
+        model.addAttribute("voteDtoList",voteDtoList);
         return "vote/list";
     }
 }

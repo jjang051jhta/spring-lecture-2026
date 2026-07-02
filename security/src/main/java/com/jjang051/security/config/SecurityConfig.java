@@ -28,6 +28,7 @@ public class SecurityConfig {
                                                 "/member/find-password/send",
                                                 "/member/find-password/verify",
                                                 "/chart/**",
+                                                "/vote/**",
                                                 "/mail/**",
                                                 "/map/**",
                                                 "/map/ev-car",

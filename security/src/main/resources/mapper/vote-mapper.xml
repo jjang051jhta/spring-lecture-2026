@@ -14,5 +14,8 @@
         WHERE vote_no = #{voteNo}
         ORDER BY item_no asc
     </select>
+    <update id="increaseVoteCount" parameterType="int">
+        UPDATE vote_item SET vote_count = vote_count+1  WHERE item_no = #{itemNo}
+    </update>
 </mapper>
 

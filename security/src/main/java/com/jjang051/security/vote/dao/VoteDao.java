@@ -11,4 +11,5 @@ public interface VoteDao {
     List<VoteDto> findAllVotes();
     List<VoteItemDto> findItemsByVoteNo(int voteNo);
     VoteDto findVoteByNo(int voteNo);
+    Integer increaseVoteCount(int itemNo);
 }

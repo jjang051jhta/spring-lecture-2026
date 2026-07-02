@@ -9,5 +9,5 @@ public class VoteItemDto {
     private int itemNo;
     private int voteNo;
     private String itemText;
-    private int count;
+    private int voteCount;
 }

@@ -16,11 +16,14 @@ public class VoteService {
         return voteDao.findAllVotes();
     }
     public VoteDto findVote(int voteNo) {
-        VoteDto voteDto = voteDao.findVoteByNo(voteNo);
-        voteDto.setItems(findItemsByVoteNo(voteNo));
+        VoteDto voteDto = voteDao.findVoteByNo(voteNo); //title 월드컵 우승 후보는?
+        voteDto.setItems(findItemsByVoteNo(voteNo)); //브라질,프랑스,영국,아르헨티나
         return voteDto;
     }
     public List<VoteItemDto> findItemsByVoteNo(int voteNo) {
         return voteDao.findItemsByVoteNo(voteNo);
+    }
+    public Integer increaseVoteCount(int itemNo) {
+        return voteDao.increaseVoteCount(itemNo);
     }
 }

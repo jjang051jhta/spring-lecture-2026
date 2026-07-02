@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .chart-wrap {
+            width: 1200px;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+<div class="chart-wrap">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script th:inline="javascript">
+    const labels = /*[[${voteDto.items.![itemText]}]]*/[];
+    const chartData = /*[[${voteDto.items.![voteCount]}]]*/[];
+    const title = /*[[${voteDto.title}]]*/[];
+    const type = "bar";
+    const ctx = document.getElementById("myChart");
+
+    new Chart(ctx, {
+        type: type,
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: title,
+                    data: chartData,
+                    borderWidth: 1,
+                },
+            ],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+</script>
+</body>
+</html>

@@ -6,10 +6,10 @@
 </head>
 <body>
     <h2 th:text="${voteDto.title}"></h2>
-    <form>
+    <form th:action="@{/vote/{voteNo}(voteNo = ${voteDto.voteNo})}" method="post">
         <div th:each="item:${voteDto.items}">
             <label>
-                <input type="radio" name="itemNo" value="${item.itemNo}">
+                <input type="radio" name="itemNo" th:value="${item.itemNo}">
                 <span th:text="${item.itemText}"></span>
             </label>
         </div>

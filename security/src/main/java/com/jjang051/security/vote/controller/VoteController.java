@@ -33,5 +33,15 @@ public class VoteController {
         model.addAttribute("voteDto",voteDto);
         return "vote/detail";
     }
-
+    @PostMapping("/{voteNo}")
+    public String vote(@PathVariable int voteNo, @RequestParam int itemNo){
+        voteService.increaseVoteCount(itemNo);
+        return "redirect:/vote/"+voteNo+"/result";
+    }
+    @GetMapping("/{voteNo}/result")
+    public String result(@PathVariable int voteNo, Model model){
+        VoteDto voteDto = voteService.findVote(voteNo);
+        model.addAttribute("voteDto",voteDto);
+        return "vote/result";
+    }
 }

@@ -1,38 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투표 등록</title>
+
+    <!-- DaisyUI + Tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
-<form th:action="@{/vote/write}" th:method="post">
-    <div>
-        <label> 투표제목 </label>
-        <input type="text" name="title" placeholder="ex) 좋아하는 연예인은?">
+
+<body class="min-h-screen bg-base-200 flex items-center justify-center p-6">
+
+<div class="card w-full max-w-2xl bg-base-100 shadow-xl">
+    <div class="card-body">
+
+        <h2 class="card-title text-3xl justify-center mb-6">
+            🗳️ 투표 등록
+        </h2>
+
+        <form th:action="@{/vote/write}" method="post">
+
+            <!-- 제목 -->
+            <div class="form-control mb-6">
+                <label class="label">
+                    <span class="label-text font-semibold">투표 제목</span>
+                </label>
+                <input
+                        type="text"
+                        name="title"
+                        placeholder="예) 좋아하는 연예인은?"
+                        class="input input-bordered w-full"/>
+            </div>
+
+            <!-- 항목 -->
+            <div class="mb-6">
+
+                <div class="flex justify-between items-center mb-3">
+                    <span class="font-semibold text-lg">투표 항목</span>
+
+                    <button
+                            type="button"
+                            id="btn-add-item"
+                            class="btn btn-primary btn-sm">
+                        + 항목 추가
+                    </button>
+                </div>
+
+                <div id="item-box" class="space-y-3">
+                    <input
+                            type="text"
+                            name="itemText"
+                            placeholder="항목 1"
+                            class="input input-bordered w-full"/>
+
+                    <input
+                            type="text"
+                            name="itemText"
+                            placeholder="항목 2"
+                            class="input input-bordered w-full"/>
+                </div>
+
+            </div>
+
+            <div class="card-actions justify-end">
+                <button class="btn btn-success">
+                    등록
+                </button>
+            </div>
+
+        </form>
+
     </div>
-    <div>
-        <div>
-            <label>투표항목</label>
-            <button type="button" id="btn-add-item">항목추가</button>
-        </div>
-        <div id="item-box">
-            <input type="text" name="itemText" placeholder="항목 1">
-            <input type="text" name="itemText" placeholder="항목 1">
-        </div>
-        <div><button>등록</button></div>
-    </div>
-</form>
+</div>
+
 <script>
     const btnAddItem = document.querySelector("#btn-add-item");
     const itemBox = document.querySelector("#item-box");
-    btnAddItem.addEventListener("click",(e)=>{
-        e.preventDefault();
+
+    btnAddItem.addEventListener("click", () => {
+
+        const count = itemBox.querySelectorAll("input").length + 1;
+
         const input = document.createElement("input");
-        input.type="text";
+        input.type = "text";
         input.name = "itemText";
-        input.placeholder="추가항목";
+        input.placeholder = `항목 ${count}`;
+        input.className = "input input-bordered w-full";
+
         itemBox.appendChild(input);
-    })
+    });
 </script>
+
 </body>
 </html>

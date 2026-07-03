@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .main-slide {
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+        }
+        .swiper-slide {
+            height:600px;
+            background: #ccc;
+            background-size: cover;
+        }
+        .main-slide .main-txt {
+            font-size: 36px;
+            font-weight: bold;
+            color:#fff;
+        }
+        .main-slide .sub-txt {
+            font-size: 20px;
+            font-weight: bold;
+            color:#fff;
+        }
+
+    </style>
+</head>
+<body>
+<!-- Slider main container -->
+<div class="main-slide">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide" style="background-image: url('/images/slide01.jpg')">
+            <p class="main-txt">여기는 메인 텍스트가 들어갑니다.</p>
+            <p class="sub-txt">여기는 서브 텍스트가 들어갑니다.</p>
+
+        </div>
+        <div class="swiper-slide" style="background-image: url('/images/slide02.jpg')">
+            <p class="main-txt">여기는 메인 텍스트가 들어갑니다.</p>
+            <p class="sub-txt">여기는 서브 텍스트가 들어갑니다.</p>
+        </div>
+        <div class="swiper-slide" style="background-image: url('/images/slide03.jpg')">
+            <p class="main-txt">여기는 메인 텍스트가 들어갑니다.</p>
+            <p class="sub-txt">여기는 서브 텍스트가 들어갑니다.</p>
+        </div>
+    </div>
+</div>
+<script>
+    const swiper = new Swiper(".main-slide", {});
+</script>
+</body>
+</html>

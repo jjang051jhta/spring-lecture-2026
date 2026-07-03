@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -50,20 +50,13 @@
 <div class="main-slide">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide" style="background-image: url('/images/slide01.jpg')">
-            <p class="main-txt">여기는 메인 텍스트가 들어갑니다.</p>
-            <p class="sub-txt">여기는 서브 텍스트가 들어갑니다.</p>
+        <th:block th:each="item:${mainSlideDtoList}">
+            <div class="swiper-slide" th:style="'background-image: url(' + ${item.imageUrl} + ')'">
+                <p class="main-txt" th:text="${item.mainText}">여기는 메인 텍스트가 들어갑니다.</p>
+                <p class="sub-txt" th:text="${item.subText}">여기는 서브 텍스트가 들어갑니다.</p>
+            </div>
+        </th:block>
 
-        </div>
-        <div class="swiper-slide" style="background-image: url('/images/slide02.jpg')">
-            <p class="main-txt">여기는 메인 텍스트가 들어갑니다.</p>
-            <p class="sub-txt">여기는 서브 텍스트가 들어갑니다.</p>
-        </div>
-        <div class="swiper-slide" style="background-image: url('/images/slide03.jpg')">
-            <p class="main-txt">여기는 메인 텍스트가 들어갑니다.</p>
-            <p class="sub-txt">여기는 서브 텍스트가 들어갑니다.</p>
-        </div>
     </div>
     <div class="pagination"></div>
 </div>

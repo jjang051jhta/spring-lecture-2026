@@ -15,5 +15,9 @@
             SYSDATE
         )
     </insert>
+    <select id="findAllSlides" resultType="MainSlideDto">
+        SELECT * FROM main_slide
+        ORDER BY sort_order ASC, slide_no DESC
+    </select>
 </mapper>
 

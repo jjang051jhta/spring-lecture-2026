@@ -3,12 +3,10 @@ package com.jjang051.security.swiper.controller;
 import com.jjang051.security.swiper.dto.MainSlideDto;
 import com.jjang051.security.swiper.service.MainSlideService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +14,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/swiper")
 @RequiredArgsConstructor
+@Slf4j
 public class SwiperController {
 
     private final MainSlideService mainSlideService;
@@ -43,5 +42,13 @@ public class SwiperController {
     public String insertSlide(@ModelAttribute MainSlideDto mainSlideDto) throws IOException {
         mainSlideService.insertSlide(mainSlideDto);
         return "redirect:/swiper/admin";
+    }
+
+    @PostMapping("/admin/sort")
+    @ResponseBody
+    public String sortSlide(@RequestBody List<Integer> slideNos)  {
+        log.info(slideNos.toString());
+        mainSlideService.updateSort(slideNos);
+        return "ok";
     }
 }

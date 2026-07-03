@@ -19,5 +19,9 @@
         SELECT * FROM main_slide
         ORDER BY sort_order ASC, slide_no DESC
     </select>
+    <update id="updateSortOrder">
+        UPDATE main_slide SET sort_order = #{sortOrder}
+        WHERE slide_no =  #{slideNo}
+    </update>
 </mapper>
 

@@ -46,4 +46,11 @@ public class MainSlideService {
         }
         log.info("insertSlide");
     }
+
+    public void updateSort(List<Integer> slideNos) {
+        for(int i = 0; i < slideNos.size(); i++){
+            //4,3,5,2,1
+            mainSlideDao.updateSortOrder(slideNos.get(i),i+1);
+        }
+    }
 }

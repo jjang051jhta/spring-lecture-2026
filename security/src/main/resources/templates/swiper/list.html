@@ -7,6 +7,13 @@
     <!-- DaisyUI + Tailwind -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css"/>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <style>
+        .handle {
+            cursor: move;
+        }
+    </style>
 </head>
 
 <body class="bg-base-200 min-h-screen">
@@ -21,12 +28,11 @@
 
         <th:block th:each="item : ${mainSlideDtoList}">
 
-            <li class="card bg-base-100 shadow-md border border-base-300">
-
+            <li class="card bg-base-100 shadow-md border border-base-300 slide-item" th:data-slide-no="${item.slideNo}">
                 <div class="card-body">
 
                     <div class="flex flex-col md:flex-row items-center gap-6">
-
+                        <div class="handle"> DRAG</div>
                         <!-- 이미지 -->
                         <figure class="w-full md:w-60 shrink-0">
                             <img
@@ -85,6 +91,26 @@
     </ul>
 
 </div>
-
+<script>
+    const slideList = document.querySelector("#slide-list");
+    const sortable = new Sortable(slideList, {
+        handle:".handle",
+        animation:150,
+        onEnd:function(e){
+            //alert("드래그 끝났음");
+            const slideItems = [...document.querySelectorAll(".slide-item")];
+            const slideNos = slideItems.map(item=>Number(item.dataset.slideNo));
+            console.log(slideItems);
+            console.log(slideNos);
+            fetch("/swiper/admin/sort",{
+                method:"post",
+                headers: {
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify(slideNos)
+            })
+        }
+    })
+</script>
 </body>
 </html>

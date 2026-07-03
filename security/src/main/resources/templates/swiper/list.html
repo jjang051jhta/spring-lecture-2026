@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .thumbnail img {
+            width:150px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .slide-item {
+            padding:20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            display: flex;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="list-box">
+        <ul id="slide-list">
+            <th:block th:each="item:${mainSlideDtoList}">
+                <li class="slide-item">
+                    <div class="thumbnail">
+                        <img th:src="${item.imageUrl}">
+                    </div>
+                    <div class="info">
+                        <p class="main-txt" th:text="${item.mainText}">여기는 메인 텍스트가 들어갑니다.</p>
+                        <p class="sub-txt" th:text="${item.subText}">여기는 서브 텍스트가 들어갑니다.</p>
+                    </div>
+                    <div class="ui">
+                        <label><input type="checkbox"> <span>노출</span></label>
+                        <button>삭제</button>
+                    </div>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+</body>
+</html>

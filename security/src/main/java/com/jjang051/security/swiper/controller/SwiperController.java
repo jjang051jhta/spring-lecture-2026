@@ -25,10 +25,18 @@ public class SwiperController {
         model.addAttribute("mainSlideDtoList", mainSlideDtoList);
         return "swiper/main";
     }
-    @GetMapping("/admin")
+    @GetMapping("/admin/insert")
     public String swiperAdmin(){
         return "swiper/admin";
     }
+
+    @GetMapping("/admin/list")
+    public String swiperList(Model model){
+        List<MainSlideDto> mainSlideDtoList = mainSlideService.findAllSlides();
+        model.addAttribute("mainSlideDtoList", mainSlideDtoList);
+        return "swiper/list";
+    }
+
 
 
     @PostMapping("/admin/slides")

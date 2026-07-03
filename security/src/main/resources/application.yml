@@ -50,3 +50,6 @@ mybatis:
     map-underscore-to-camel-case: true
 kakao:
   admin-key:  05ca3b8044581dce6409056953dc7a76
+
+file:
+  upload: "C:/upload"

@@ -1,12 +1,22 @@
 package com.jjang051.security.swiper.controller;
 
+import com.jjang051.security.swiper.dto.MainSlideDto;
+import com.jjang051.security.swiper.service.MainSlideService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/swiper")
+@RequiredArgsConstructor
 public class SwiperController {
+
+    private final MainSlideService mainSlideService;
     @GetMapping({"/","/main"})
     public String swiperMain(){
         return "swiper/main";
@@ -14,5 +24,12 @@ public class SwiperController {
     @GetMapping("/admin")
     public String swiperAdmin(){
         return "swiper/admin";
+    }
+
+
+    @PostMapping("/admin/slides")
+    public String insertSlide(@ModelAttribute MainSlideDto mainSlideDto) throws IOException {
+        mainSlideService.insertSlide(mainSlideDto);
+        return "redirect:/swiper/admin";
     }
 }

@@ -32,6 +32,7 @@ public class SecurityConfig {
                                                 "/swiper/**",
                                                 "/mail/**",
                                                 "/map/**",
+                                                "/upload/**",
                                                 "/map/ev-car",
                                                 "/redis/**",
                                                 "/images/**",

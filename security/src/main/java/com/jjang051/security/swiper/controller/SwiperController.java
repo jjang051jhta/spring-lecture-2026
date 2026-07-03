@@ -11,4 +11,8 @@ public class SwiperController {
     public String swiperMain(){
         return "swiper/main";
     }
+    @GetMapping("/admin")
+    public String swiperAdmin(){
+        return "swiper/admin";
+    }
 }

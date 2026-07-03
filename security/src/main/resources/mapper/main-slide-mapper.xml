@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jjang051.security.swiper.dao.MainSlideDao">
+    <insert id="insertSlide">
+        INSERT INTO main_slide VALUES
+        (
+            main_slide_seq.nextval,
+            #{mainText},
+            #{subText},
+            #{imageUrl},
+            999,
+            'Y',
+            SYSDATE
+        )
+    </insert>
+</mapper>
+

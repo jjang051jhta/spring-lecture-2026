@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: react-member
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: react
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+
+decorator:
+  datasource:
+    enabled: true
+    p6spy:
+      enable-logging: true
+      logging: slf4j
+      multiline: true
+
+logging:
+  level:
+    p6spy: info
+    org.hibernate.SQL: off
+    org.hibernate.orm.jdbc.bind: off

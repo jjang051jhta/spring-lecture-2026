@@ -1,8 +1,9 @@
 package com.jjang051.reactmember.config;
 
-
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy;
 import org.hibernate.engine.jdbc.internal.FormatStyle;
+
+import java.util.Locale;
 
 public class P6SpySqlFormatter implements MessageFormattingStrategy {
 
@@ -16,25 +17,47 @@ public class P6SpySqlFormatter implements MessageFormattingStrategy {
             String sql,
             String url
     ) {
-        if (sql == null || sql.isBlank()) {
+
+        if (sql == null || sql.trim().isEmpty()) {
             return "";
         }
 
-        String formattedSql;
-
-        if ("statement".equals(category)) {
-            formattedSql = FormatStyle.BASIC
-                    .getFormatter()
-                    .format(sql);
-        } else {
-            formattedSql = sql;
-        }
-
         return String.format(
-                "%n실행 시간: %dms%n분류: %s%nSQL:%n%s",
+                """
+
+==================================================
+실행시간 : %d ms
+카테고리 : %s
+
+%s
+==================================================
+""",
                 elapsed,
                 category,
-                formattedSql
+                formatSql(category, sql)
         );
+    }
+
+    private String formatSql(String category, String sql) {
+
+        if (!"statement".equals(category)) {
+            return sql;
+        }
+
+        String lowerSql = sql.trim().toLowerCase(Locale.ROOT);
+
+        if (lowerSql.startsWith("create")
+                || lowerSql.startsWith("alter")
+                || lowerSql.startsWith("drop")
+                || lowerSql.startsWith("comment")) {
+
+            return FormatStyle.DDL
+                    .getFormatter()
+                    .format(sql);
+        }
+
+        return FormatStyle.BASIC
+                .getFormatter()
+                .format(sql);
     }
 }

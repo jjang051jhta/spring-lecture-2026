@@ -29,9 +29,13 @@ public class ApiController {
     }
     @PostMapping("/user")
     public User user02(@RequestBody User user){
+
         System.out.println(user.getName());
         System.out.println(user.getAge());
         System.out.println(user.getMajor());
+        user.setName(user.getName()+"님");
+        user.setMajor(user.getMajor()+"전공");
+        user.setAge(user.getAge()+10);
         return user;
     }
 }

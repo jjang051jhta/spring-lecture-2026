@@ -1,6 +1,7 @@
 package com.jjang051.sns.story.controller;
 
 import com.jjang051.sns.global.dto.ApiResponseDto;
+import com.jjang051.sns.story.dto.StoryResponseDto;
 import com.jjang051.sns.story.dto.StoryWriteDto;
 import com.jjang051.sns.story.entity.Story;
 import com.jjang051.sns.story.service.StoryService;
@@ -19,16 +20,16 @@ import org.springframework.web.bind.annotation.*;
 public class StoryController {
     private final StoryService storyService;
     @PostMapping
-    public ResponseEntity<ApiResponseDto<Void>> saveStory(@ModelAttribute StoryWriteDto storyWriteDto) {
+    public ResponseEntity<ApiResponseDto<StoryResponseDto>> saveStory(@ModelAttribute StoryWriteDto storyWriteDto) {
         //writer,image,content
         log.info("StoryWriteDto: {}", storyWriteDto);
-        storyService.saveStory(storyWriteDto);
+        StoryResponseDto storyResponseDto = storyService.saveStory(storyWriteDto);
         //객체 리턴하면 자동으로 json으로 변환이 된다.
         //ResponseEntity<String> response; //api서버만들때 응답전용 객체
         ApiResponseDto response = new ApiResponseDto<>(
                 200,
                 "success",
-                null
+                storyResponseDto
         );
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(response);

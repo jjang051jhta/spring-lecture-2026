@@ -28,3 +28,5 @@ decorator:
 logging:
   level:
     p6spy:  info  # off - error - warn - info - debug - trace
+file:
+  upload-dir: C:/upload

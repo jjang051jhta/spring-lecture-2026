@@ -1,22 +1,52 @@
 package com.jjang051.sns.story.service;
 
+import com.jjang051.sns.story.dto.StoryResponseDto;
 import com.jjang051.sns.story.dto.StoryWriteDto;
 import com.jjang051.sns.story.entity.Story;
 import com.jjang051.sns.story.repository.StoryRepsitory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StoryService {
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
     private final StoryRepsitory storyRepsitory;
-    public void saveStory(StoryWriteDto storyWriteDto) {
-        //강한결합
-        Story story = Story.builder()
-                .writer(storyWriteDto.getWriter())
-                .content(storyWriteDto.getContent())
-                .image("이미지를 업로드하고 반환받는 이미지 경로")
-                .build();
-        storyRepsitory.save(story);
+    public StoryResponseDto saveStory(StoryWriteDto storyWriteDto) {
+        log.info("uploadDir {}", uploadDir);
+        String imageUrl = null;
+        MultipartFile image = storyWriteDto.getImage();
+        if(image != null && !image.isEmpty()) {
+
+            try {
+                Path uploadPath = Paths.get(uploadDir);
+                Files.createDirectories(uploadPath); //io 는 보통 예외처리 해야 한다.
+                String fileName = UUID.randomUUID()+"_"+image.getOriginalFilename();
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                imageUrl = "/upload/"+fileName;
+            } catch (IOException e) {
+                throw new RuntimeException("이미지 저장 실패");
+            }
+        }
+        Story story = storyWriteDto.toEntity(imageUrl);
+        //storyRepsitory.save(story)  save메서드는 entity를 리턴한다.  entity를 StroyResponseSto로 바꿔주는 게 필요한다.
+        Story savedStory = storyRepsitory.save(story);
+        return StoryResponseDto.from(savedStory);
+        //dto를 받아서 entity로 만들어서 db에 저장
+        //entity를 받아서 dto로 변환해서 api로 리턴
     }
 }

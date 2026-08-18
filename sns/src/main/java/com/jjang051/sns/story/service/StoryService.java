@@ -1,5 +1,8 @@
 package com.jjang051.sns.story.service;
 
+import com.jjang051.sns.global.utils.DateTimeRenameStrategy;
+import com.jjang051.sns.global.utils.FileRenameStrategy;
+import com.jjang051.sns.global.utils.UUIDRenameStrategy;
 import com.jjang051.sns.story.dto.StoryResponseDto;
 import com.jjang051.sns.story.dto.StoryWriteDto;
 import com.jjang051.sns.story.entity.Story;
@@ -15,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,7 +38,9 @@ public class StoryService {
             try {
                 Path uploadPath = Paths.get(uploadDir);
                 Files.createDirectories(uploadPath); //io 는 보통 예외처리 해야 한다.
-                String fileName = UUID.randomUUID()+"_"+image.getOriginalFilename();
+                FileRenameStrategy fileRenameStrategy = new UUIDRenameStrategy();
+                //String fileName = UUID.randomUUID()+"_"+image.getOriginalFilename();
+                String fileName = fileRenameStrategy.rename(image.getOriginalFilename());
                 Path filePath = uploadPath.resolve(fileName);
                 Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
                 imageUrl = "/upload/"+fileName;
@@ -48,5 +54,13 @@ public class StoryService {
         return StoryResponseDto.from(savedStory);
         //dto를 받아서 entity로 만들어서 db에 저장
         //entity를 받아서 dto로 변환해서 api로 리턴
+    }
+
+    public List<StoryResponseDto> findAllStory() {
+        //List<Stoty>
+        return  storyRepsitory.findAllByOrderByIdDesc()
+                              .stream()
+                              .map(StoryResponseDto::from)
+                              .toList();
     }
 }

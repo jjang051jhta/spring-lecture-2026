@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Slf4j
 @RestController
@@ -19,6 +21,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/stories")
 public class StoryController {
     private final StoryService storyService;
+
+    @GetMapping
+    public ResponseEntity<List<StoryResponseDto>> findAllStory() {
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(storyService.findAllStory());
+    }
+
+
     @PostMapping
     public ResponseEntity<ApiResponseDto<StoryResponseDto>> saveStory(@ModelAttribute StoryWriteDto storyWriteDto) {
         //writer,image,content

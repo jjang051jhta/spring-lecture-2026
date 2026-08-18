@@ -32,6 +32,7 @@ public class MemberController {
     @GetMapping("/signup")
     public String signup() {
         System.out.println("signup");
+
         return "member/signup";
     }
 

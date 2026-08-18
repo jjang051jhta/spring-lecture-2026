@@ -9,7 +9,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create #테이블 만들때 시작하자 마자 새롭게 만들겠느냐
+      ddl-auto: update #테이블 만들때 시작하자 마자 새롭게 만들겠느냐
       naming:
         #physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
@@ -17,3 +17,14 @@ spring:
       hibernate:
         format_sql: true
         highlight_sql: true
+
+decorator:
+  datasource:
+    enabled:  true
+    p6spy:
+      enable-logging: true
+      logging:  slf4j
+      multiline:  true
+logging:
+  level:
+    p6spy:  info  # off - error - warn - info - debug - trace

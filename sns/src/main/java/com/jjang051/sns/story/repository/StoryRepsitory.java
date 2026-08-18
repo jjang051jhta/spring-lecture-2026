@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StoryRepsitory extends JpaRepository<Story, Long> {
     //기본 crud 만들어짐
+    //jpa가 알아서 만들어 준다.
+    //proxy
 }

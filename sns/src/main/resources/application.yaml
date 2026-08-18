@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: sns
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: react
+    password: 1234
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create #테이블 만들때 시작하자 마자 새롭게 만들겠느냐
+      naming:
+        #physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true

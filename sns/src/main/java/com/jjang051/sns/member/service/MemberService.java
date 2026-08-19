@@ -43,4 +43,8 @@ public class MemberService {
         Member member = signupDto.toEntity(imageUrl);
         return memberRepository.save(member);
     }
+
+    public Boolean existsUserId(String userId) {
+        return memberRepository.existsByUserId(userId);
+    }
 }

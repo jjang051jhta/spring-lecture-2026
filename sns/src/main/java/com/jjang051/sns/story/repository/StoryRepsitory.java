@@ -15,6 +15,7 @@ public interface StoryRepsitory extends JpaRepository<Story, Long> {
     //query method
     List<Story> findAllByOrderByIdDesc(); //jpa는 구현이 없다.  스프링이 proxy를 만들어서 주입해 준다.
 
+    //querydsl
     //Story는 entity이다. 대소문자 잘 맞춰서 써야 한다.
     //jpql
     //@Query(value="SELECT * FROM Story s ORDER BY id DESC", nativeQuery = true)

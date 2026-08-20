@@ -1,5 +1,6 @@
 package com.jjang051.sns.auth.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -33,5 +34,28 @@ public class JwtProvider {
                 .expiration(Date.from(expireration))
                 .signWith(secretKey)
                 .compact();
+    }
+    //토큰에서 사용자 아이디 꺼내기
+    public String getUserId(String token) {
+            Claims claims = Jwts
+                            .parser()
+                            .verifyWith(secretKey)
+                            .build()
+                            .parseClaimsJws(token)
+                            .getPayload();
+
+            return claims.getSubject();
+    }
+    //토큰 검증
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

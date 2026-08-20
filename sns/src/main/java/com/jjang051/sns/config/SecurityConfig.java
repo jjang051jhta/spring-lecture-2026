@@ -50,7 +50,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                         "/api/member/signup",
                                                 "/api/member/check-userid",
-                                                "/api/member/login",
+                                                "/api/auth/login",
                                                 "/upload/**").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider());

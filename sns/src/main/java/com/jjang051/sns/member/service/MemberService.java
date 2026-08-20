@@ -7,6 +7,7 @@ import com.jjang051.sns.member.entity.Member;
 import com.jjang051.sns.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +25,8 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     public Member signUp(SignupDto signupDto) {
         String imageUrl =  null;
         MultipartFile profile = signupDto.getProfile();
@@ -40,7 +43,9 @@ public class MemberService {
                 throw new RuntimeException(e);
             }
         }
-        Member member = signupDto.toEntity(imageUrl);
+
+        String encodedPassword = passwordEncoder.encode(signupDto.getUserPassword());
+        Member member = signupDto.toEntity(imageUrl,encodedPassword);
         return memberRepository.save(member);
     }
 

@@ -30,4 +30,9 @@ public class Member extends BaseEntity {
     private String userPassword;
 
     private String profile;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 }

@@ -2,10 +2,7 @@ package com.jjang051.sns.member.entity;
 
 import com.jjang051.sns.global.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -35,4 +32,13 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public void updateUserName(String userName) {
+        this.userName = userName;
+    }
+    public void updateProfile(String userName,String profile) {
+        this.userName = userName;
+        if(profile!=null){
+            this.profile = profile;
+        }
+    }
 }

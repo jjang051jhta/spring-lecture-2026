@@ -1,9 +1,14 @@
 package com.jjang051.sns.member.controller;
 
+import com.jjang051.sns.global.dto.ApiResponseDto;
+import com.jjang051.sns.member.dto.MemberUpdateDto;
 import com.jjang051.sns.member.dto.SignupDto;
 import com.jjang051.sns.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,5 +31,17 @@ public class MemberController {
         log.info("checkUserid={}", userId);
         Boolean exists = memberService.existsUserId(userId);
         return Map.of("available",!exists);
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<ApiResponseDto<Void>> updateMember(
+            @ModelAttribute MemberUpdateDto memberUpdateDto, Authentication authentication) {
+
+            String userId = authentication.getName();
+            log.info("memberUpdateDto={}", memberUpdateDto.toString());
+            memberService.updateMember(userId,memberUpdateDto);
+        log.info("memberUpdateDto02={}", memberUpdateDto.toString());
+            return ResponseEntity.status(HttpStatus.OK)
+                                 .body(new ApiResponseDto<>(200,"회원정보가 수정되었습니다.", null));
     }
 }

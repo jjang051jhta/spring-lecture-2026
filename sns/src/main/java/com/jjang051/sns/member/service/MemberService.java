@@ -58,7 +58,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMember(String userId, MemberUpdateDto memberUpdateDto) {
+    public Member updateMember(String userId, MemberUpdateDto memberUpdateDto) {
         log.info("uopdate member");
         Member findedMember = memberRepository.findByUserId(userId).orElseThrow(()->new RuntimeException("회원이 존재하지 않습니다."));
         String profileUrl = null;
@@ -81,6 +81,6 @@ public class MemberService {
         //memberRepository.save(findedMember);
         log.info("uopdate member 02");
         findedMember.updateProfile(memberUpdateDto.getUserName(), profileUrl);
-        log.info("uopdate member 03");
+        return findedMember;
     }
 }

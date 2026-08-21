@@ -10,6 +10,9 @@ import com.jjang051.sns.story.repository.StoryRepsitory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,5 +65,11 @@ public class StoryService {
                               .stream()
                               .map(StoryResponseDto::from)
                               .toList();
+    }
+    public Page<StoryResponseDto> findAllStoryPage(int page, int size) {
+        //List<Stoty>
+        Pageable pageable = PageRequest.of(page, size);
+        return  storyRepsitory.findAllByOrderByIdDesc(pageable)
+                .map(StoryResponseDto::from);
     }
 }

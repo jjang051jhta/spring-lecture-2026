@@ -7,6 +7,7 @@ import com.jjang051.sns.story.entity.Story;
 import com.jjang051.sns.story.service.StoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,12 +22,21 @@ import java.util.List;
 @RequestMapping("/api/stories")
 public class StoryController {
     private final StoryService storyService;
-
+    /*
     @GetMapping
     public ResponseEntity<List<StoryResponseDto>> findAllStory() {
         return ResponseEntity.status(HttpStatus.OK)
                              .body(storyService.findAllStory());
     }
+     */
+    @GetMapping
+    public ResponseEntity<Page<StoryResponseDto>> findAllStory(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(storyService.findAllStoryPage(page,size));
+    }
+
 
 
     @PostMapping

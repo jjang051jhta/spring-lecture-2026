@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CommentService {
@@ -33,5 +35,12 @@ public class CommentService {
                 .build();
         Comment saveComment = commentRepository.save(comment);
         return CommentResponseDto.from(saveComment);
+    }
+
+    public List<CommentResponseDto> getComments(Long storyId) {
+        return commentRepository.findByStoryIdOrderByIdAsc(storyId)
+                                .stream()
+                                .map(CommentResponseDto::from)
+                                .toList();
     }
 }

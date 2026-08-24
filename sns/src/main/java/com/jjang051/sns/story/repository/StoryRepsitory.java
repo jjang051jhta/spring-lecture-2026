@@ -4,6 +4,7 @@ package com.jjang051.sns.story.repository;
 import com.jjang051.sns.story.entity.Story;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +17,8 @@ public interface StoryRepsitory extends JpaRepository<Story, Long> {
     //proxy
     //query method
     List<Story> findAllByOrderByIdDesc(); //jpa는 구현이 없다.  스프링이 proxy를 만들어서 주입해 준다.
-    Page<Story> findAllByOrderByIdDesc(Pageable pageable);
+    //Page<Story> findAllByOrderByIdDesc(Pageable pageable);
+    Slice<Story> findAllByOrderByIdDesc(Pageable pageable);
 
     //querydsl
     //Story는 entity이다. 대소문자 잘 맞춰서 써야 한다.

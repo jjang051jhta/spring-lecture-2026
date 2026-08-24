@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,10 +67,32 @@ public class StoryService {
                               .map(StoryResponseDto::from)
                               .toList();
     }
-    public Page<StoryResponseDto> findAllStoryPage(int page, int size) {
-        //List<Stoty>
-        Pageable pageable = PageRequest.of(page, size);
-        return  storyRepsitory.findAllByOrderByIdDesc(pageable)
+    // 페이징 조회
+    /*
+    public Page<StoryResponseDto> findAllStoryPage(
+            int page,
+            int size
+    ) {
+
+        Pageable pageable =
+                PageRequest.of(page, size);
+
+        return storyRepsitory
+                .findAllByOrderByIdDesc(pageable)
+                .map(StoryResponseDto::from);
+    }
+     */
+    // 페이징 조회
+    public Slice<StoryResponseDto> findAllStoryPage(
+            int page,
+            int size
+    ) {
+
+        Pageable pageable =
+                PageRequest.of(page, size);
+
+        return storyRepsitory
+                .findAllByOrderByIdDesc(pageable)
                 .map(StoryResponseDto::from);
     }
 }

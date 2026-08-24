@@ -8,6 +8,7 @@ import com.jjang051.sns.story.service.StoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class StoryController {
     }
      */
     @GetMapping
-    public ResponseEntity<Page<StoryResponseDto>> findAllStory(
+    public ResponseEntity<Slice<StoryResponseDto>> findAllStory(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
         return ResponseEntity.status(HttpStatus.OK)
